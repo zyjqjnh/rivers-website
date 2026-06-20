@@ -1,0 +1,19 @@
+[
+  {
+    "AllowedOrigins": [
+      "https://anrivers.com",
+      "https://www.anrivers.com"
+    ],
+    "AllowedMethods": [
+      "GET",
+      "PUT"
+    ],
+    "AllowedHeaders": [
+      "Content-Type"
+    ],
+    "ExposeHeaders": [
+      "ETag"
+    ],
+    "MaxAgeSeconds": 3600
+  }
+]

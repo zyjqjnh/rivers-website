@@ -2,6 +2,8 @@
 
 Next.js App Router website with PostgreSQL/Prisma product management.
 
+Production deployment for `anrivers.com` is documented in [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 ## Local setup
 
 The project includes a local PostgreSQL service in `docker-compose.yml`.

@@ -4,15 +4,15 @@ services:
     container_name: rivers-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: rivers
-      POSTGRES_PASSWORD: b344d0b6599b9f183a983ce8e4a842d5407f
-      POSTGRES_DB: rivers_website
+      POSTGRES_USER: ${POSTGRES_USER:-rivers}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rivers_local_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-rivers_website}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - rivers_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U rivers -d rivers_website"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 10
