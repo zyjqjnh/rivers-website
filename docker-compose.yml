@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: rivers-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rivers
+      POSTGRES_PASSWORD: b344d0b6599b9f183a983ce8e4a842d5407f
+      POSTGRES_DB: rivers_website
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - rivers_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rivers -d rivers_website"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  rivers_postgres_data:
