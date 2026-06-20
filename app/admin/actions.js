@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { clearAdminSession, createAdminSession, isAdminAuthenticated } from "@/lib/auth";
 import { isDatabaseConfigured, prisma } from "@/lib/prisma";
+import { sanitizeRichText } from "@/lib/rich-text";
 
 const productSchema = z.object({
   name: z.string().trim().min(2),
@@ -128,7 +129,7 @@ export async function createProductAction(formData) {
       modelNumber: normalizeOptional(input.modelNumber),
       categoryId: input.categoryId,
       shortDescription: input.shortDescription,
-      description: normalizeOptional(input.description),
+      description: normalizeOptional(sanitizeRichText(input.description)),
       status: input.status,
       featured: input.featured,
       seoTitle: normalizeOptional(input.seoTitle),
@@ -162,7 +163,7 @@ export async function updateProductAction(id, formData) {
         modelNumber: normalizeOptional(input.modelNumber),
         categoryId: input.categoryId,
         shortDescription: input.shortDescription,
-        description: normalizeOptional(input.description),
+        description: normalizeOptional(sanitizeRichText(input.description)),
         status: input.status,
         featured: input.featured,
         seoTitle: normalizeOptional(input.seoTitle),

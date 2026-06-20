@@ -4,6 +4,7 @@ import { MessageCircle } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
 import { getCategories, getProductBySlug } from "@/lib/products";
+import { renderRichText } from "@/lib/rich-text";
 import { getSiteSettings, getWhatsAppUrl } from "@/lib/site-settings";
 
 export const dynamic = "force-dynamic";
@@ -40,7 +41,7 @@ export default async function ProductDetailPage({ params }) {
             <h1>{product.name}</h1>
             {product.modelNumber && <span className="model-number">MODEL · {product.modelNumber}</span>}
             <p className="product-lead">{product.shortDescription}</p>
-            <p>{product.description}</p>
+            {product.description && <div className="product-rich-text" dangerouslySetInnerHTML={{ __html: renderRichText(product.description) }} />}
             <div className="spec-table">
               {product.specifications?.map((spec) => <div className="spec-row" key={spec.id}><span>{spec.label}</span><strong>{spec.value}</strong></div>)}
             </div>

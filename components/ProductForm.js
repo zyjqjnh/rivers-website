@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { isR2Configured } from "@/lib/r2";
 
 export function ProductForm({ action, categories, product, databaseReady }) {
@@ -24,7 +25,7 @@ export function ProductForm({ action, categories, product, databaseReady }) {
             <Field label="Status"><select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring" name="status" defaultValue={product?.status || "DRAFT"}><option value="DRAFT">Draft</option><option value="PUBLISHED">Published</option><option value="ARCHIVED">Archived</option></select></Field>
             <div className="flex items-end pb-2"><label className="flex items-center gap-3 text-sm font-medium"><input className="h-4 w-4 accent-slate-950" name="featured" type="checkbox" defaultChecked={product?.featured} />Feature on homepage</label></div>
             <Field label="Short description" className="md:col-span-2"><Textarea name="shortDescription" defaultValue={product?.shortDescription || ""} required /></Field>
-            <Field label="Full description" className="md:col-span-2"><Textarea className="min-h-44" name="description" defaultValue={product?.description || ""} /></Field>
+            <Field label="Full description" className="md:col-span-2"><RichTextEditor name="description" defaultValue={product?.description || ""} /></Field>
           </CardContent>
         </Card>
 
