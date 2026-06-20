@@ -14,7 +14,7 @@ const navigation = [
   { href: "/admin/whatsapp", label: "WhatsApp", icon: MessageCircle },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ user }) {
   const pathname = usePathname();
   return (
     <aside className="flex min-h-screen w-64 shrink-0 flex-col border-r bg-slate-950 text-slate-100 max-lg:min-h-0 max-lg:w-full">
@@ -30,6 +30,10 @@ export function AdminSidebar() {
         ))}
       </nav>
       <div className="space-y-1 border-t border-white/10 p-4 max-lg:flex max-lg:items-center max-lg:gap-2 max-lg:space-y-0">
+        <div className="mb-3 min-w-0 px-3 max-lg:mb-0 max-lg:mr-auto">
+          <p className="truncate text-sm font-medium text-white">{user.name || "Administrator"}</p>
+          <p className="truncate text-xs text-slate-500">{user.email}</p>
+        </div>
         <Button variant="ghost" className="w-full justify-start text-slate-400 hover:bg-white/10 hover:text-white" asChild><Link href="/products"><ExternalLink />View website</Link></Button>
         <form action={logoutAction}><Button variant="ghost" className="w-full justify-start text-slate-400 hover:bg-white/10 hover:text-white" type="submit"><LogOut />Sign out</Button></form>
       </div>

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -41,6 +42,28 @@ const products = [
 ];
 
 async function main() {
+  const adminEmail = String(process.env.ADMIN_EMAIL || "admin@rivers.local").trim().toLowerCase();
+  const adminPassword = String(process.env.ADMIN_PASSWORD || "");
+  if (!adminPassword) {
+    throw new Error("ADMIN_PASSWORD is required to create the initial administrator account.");
+  }
+
+  const passwordHash = await bcrypt.hash(adminPassword, 12);
+  await prisma.user.upsert({
+    where: { email: adminEmail },
+    update: {
+      name: "Rivers Administrator",
+      passwordHash,
+      role: "ADMIN",
+    },
+    create: {
+      email: adminEmail,
+      name: "Rivers Administrator",
+      passwordHash,
+      role: "ADMIN",
+    },
+  });
+
   const categoryMap = {};
   for (const category of categories) {
     const saved = await prisma.category.upsert({
@@ -81,5 +104,5 @@ async function main() {
 }
 
 main()
-  .then(() => console.log("Rivers product seed completed."))
+  .then(() => console.log("Rivers administrator and product seed completed."))
   .finally(() => prisma.$disconnect());

@@ -17,6 +17,8 @@ npm run db:seed
 npm run dev
 ```
 
+Set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `AUTH_SECRET` before seeding. The seed command creates or updates the initial administrator account; the admin login then uses the stored email and bcrypt password hash.
+
 Stop PostgreSQL without deleting its data:
 
 ```bash

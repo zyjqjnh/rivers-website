@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { clearAdminSession, createAdminSession, isAdminAuthenticated } from "@/lib/auth";
 import { isDatabaseConfigured, prisma } from "@/lib/prisma";
@@ -28,6 +29,13 @@ const categorySchema = z.object({
   description: z.string().trim().max(500).optional(),
   sortOrder: z.coerce.number().int().min(0).max(100000),
 });
+
+const loginSchema = z.object({
+  email: z.string().trim().toLowerCase().email(),
+  password: z.string().min(1),
+});
+
+const DUMMY_PASSWORD_HASH = "$2b$12$8MvMOmWtBeh7ZgsXjnucKeos73zUTGXXKA2sDr2o5xOtu6wxk/F6K";
 
 function requireDatabase() {
   if (!isDatabaseConfigured) {
@@ -103,10 +111,28 @@ function isForeignKeyConstraintError(error) {
 }
 
 export async function loginAction(formData) {
-  const password = String(formData.get("password") || "");
-  if (!process.env.ADMIN_PASSWORD || !process.env.AUTH_SECRET) redirect("/admin/login?error=setup");
-  if (password !== process.env.ADMIN_PASSWORD) redirect("/admin/login?error=invalid");
-  await createAdminSession();
+  if (!process.env.AUTH_SECRET || !isDatabaseConfigured) redirect("/admin/login?error=setup");
+
+  const parsed = loginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+  if (!parsed.success) redirect("/admin/login?error=invalid");
+
+  let user;
+  try {
+    user = await prisma.user.findUnique({ where: { email: parsed.data.email } });
+  } catch {
+    redirect("/admin/login?error=setup");
+  }
+
+  const passwordMatches = await bcrypt.compare(
+    parsed.data.password,
+    user?.passwordHash || DUMMY_PASSWORD_HASH,
+  );
+  if (!user || !passwordMatches) redirect("/admin/login?error=invalid");
+
+  await createAdminSession(user);
   redirect("/admin/products");
 }
 
