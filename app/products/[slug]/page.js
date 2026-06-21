@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MessageCircle } from "lucide-react";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
 import { getCategories, getProductBySlug } from "@/lib/products";
 import { renderRichText } from "@/lib/rich-text";
 import { getSiteSettings, getWhatsAppUrl } from "@/lib/site-settings";
+import { absoluteUrl, SITE_NAME } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -13,9 +15,28 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) return { title: "Product not found" };
+  const title = product.seoTitle || product.name;
+  const description = product.seoDescription || product.shortDescription;
+  const image = product.images?.[0]?.url;
   return {
-    title: product.seoTitle || product.name,
-    description: product.seoDescription || product.shortDescription,
+    title,
+    description,
+    alternates: {
+      canonical: `/products/${product.slug}`,
+    },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: `/products/${product.slug}`,
+      images: image ? [{ url: image, alt: product.images?.[0]?.alt || product.name }] : undefined,
+    },
+    twitter: {
+      card: image ? "summary_large_image" : "summary",
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
   };
 }
 
@@ -28,12 +49,59 @@ export default async function ProductDetailPage({ params }) {
   ]);
   if (!product) notFound();
   const whatsappUrl = getWhatsAppUrl(siteSettings, product.name);
+  const productUrl = absoluteUrl(`/products/${product.slug}`);
+  const productStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.seoDescription || product.shortDescription,
+    image: product.images?.map((image) => absoluteUrl(image.url)),
+    sku: product.modelNumber || undefined,
+    category: product.category?.name,
+    url: productUrl,
+    brand: {
+      "@type": "Brand",
+      name: SITE_NAME,
+    },
+    additionalProperty: product.specifications?.map((spec) => ({
+      "@type": "PropertyValue",
+      name: spec.label,
+      value: spec.value,
+    })),
+  };
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Products", item: absoluteUrl("/products") },
+      ...(product.category
+        ? [{
+            "@type": "ListItem",
+            position: 3,
+            name: product.category.name,
+            item: absoluteUrl(`/products/category/${product.category.slug}`),
+          }]
+        : []),
+      {
+        "@type": "ListItem",
+        position: product.category ? 4 : 3,
+        name: product.name,
+        item: productUrl,
+      },
+    ],
+  };
 
   return (
     <div className="product-detail-shell">
+      <JsonLd data={[productStructuredData, breadcrumbStructuredData]} />
       <SiteHeader categories={categories} />
       <main className="product-detail-main">
-        <div className="breadcrumb"><Link href="/products">Products</Link> / {product.category?.name} / {product.name}</div>
+        <div className="breadcrumb">
+          <Link href="/products">Products</Link>
+          {product.category && <> / <Link href={`/products/category/${product.category.slug}`}>{product.category.name}</Link></>}
+          {" / "}{product.name}
+        </div>
         <div className="product-detail-grid">
           <ProductImageGallery images={product.images || []} productName={product.name} />
           <div className="product-detail-copy">

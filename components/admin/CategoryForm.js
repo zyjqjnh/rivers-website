@@ -27,6 +27,12 @@ export function CategoryForm({ action, category, databaseReady }) {
             <Field label="Description" className="md:col-span-2">
               <Textarea name="description" defaultValue={category?.description || ""} placeholder="Handheld and industrial RF transmitters." />
             </Field>
+            <Field label="SEO title">
+              <Input name="seoTitle" defaultValue={category?.seoTitle || ""} placeholder="RF Remote Controllers" />
+            </Field>
+            <Field label="SEO description">
+              <Input name="seoDescription" defaultValue={category?.seoDescription || ""} placeholder="Browse configurable RF remote controllers for industrial and access control applications." />
+            </Field>
           </CardContent>
           <CardFooter className="gap-3 border-t pt-6">
             <Button type="submit">{category ? "Save category" : "Create category"}</Button>

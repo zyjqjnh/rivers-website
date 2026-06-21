@@ -1,10 +1,21 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getCategories, getProducts } from "@/lib/products";
+import { absoluteUrl } from "@/lib/seo";
 
 export const metadata = {
   title: "RF Products",
   description: "Browse RF remote controllers, receivers, modules and sensors from Rivers RF Control.",
+  alternates: {
+    canonical: "/products",
+  },
+  openGraph: {
+    title: "RF Products",
+    description: "Browse RF remote controllers, receivers, modules and sensors from Rivers RF Control.",
+    url: "/products",
+  },
 };
 
 export const dynamic = "force-dynamic";
@@ -12,21 +23,30 @@ export const dynamic = "force-dynamic";
 export default async function ProductsPage({ searchParams }) {
   const params = await searchParams;
   const categorySlug = typeof params?.category === "string" ? params.category : "";
+  if (categorySlug) redirect(`/products/category/${encodeURIComponent(categorySlug)}`);
   const [allProducts, categories] = await Promise.all([getProducts(), getCategories()]);
-  const selectedCategory = categories.find((category) => category.slug === categorySlug);
-  const products = selectedCategory
-    ? allProducts.filter((product) => product.category?.slug === selectedCategory.slug)
-    : allProducts;
+  const products = allProducts;
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Rivers RF Control product catalogue",
+    itemListElement: products.map((product, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: product.name,
+      url: absoluteUrl(`/products/${product.slug}`),
+    })),
+  };
 
   return (
     <div className="catalogue-shell">
+      <JsonLd data={itemList} />
       <SiteHeader categories={categories} />
       <main className="catalogue-main">
         <div className="page-intro">
-          <p className="eyebrow">{selectedCategory ? "PRODUCT CATEGORY" : "PRODUCT CATALOGUE"}</p>
-          <h1>{selectedCategory ? selectedCategory.name : "RF hardware ready to fit your application."}</h1>
-          <p>{selectedCategory?.description || "Browse the starting range below. Every product can be configured around frequency, channels, voltage, range, enclosure and private-label requirements."}</p>
-          {selectedCategory && <Link className="catalogue-clear-filter" href="/products">View all products</Link>}
+          <p className="eyebrow">PRODUCT CATALOGUE</p>
+          <h1>RF hardware ready to fit your application.</h1>
+          <p>Browse the starting range below. Every product can be configured around frequency, channels, voltage, range, enclosure and private-label requirements.</p>
         </div>
         {products.length > 0 ? (
           <div className="catalogue-grid">

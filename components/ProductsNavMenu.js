@@ -13,7 +13,7 @@ export function ProductsNavMenu({ categories = [], onNavigate }) {
           <span className="products-dropdown-label">Product categories</span>
           {categories.map((category) => (
             <Link
-              href={`/products?category=${encodeURIComponent(category.slug)}`}
+              href={`/products/category/${encodeURIComponent(category.slug)}`}
               key={category.id}
               onClick={onNavigate}
             >

@@ -4,6 +4,17 @@ Next.js App Router website with PostgreSQL/Prisma product management.
 
 Production deployment for `anrivers.com` is documented in [DEPLOYMENT.md](./DEPLOYMENT.md).
 
+## Search engine setup
+
+The app generates `/robots.txt` and `/sitemap.xml`, canonical URLs, and structured data for the organization, catalogue, categories, products, and breadcrumbs.
+
+To verify the site in Google Search Console:
+
+1. Add `https://anrivers.com` as a URL-prefix property.
+2. Choose the HTML tag verification method.
+3. Copy only the `content` token into `GOOGLE_SITE_VERIFICATION`.
+4. Deploy, verify the property, then submit `https://anrivers.com/sitemap.xml`.
+
 ## Local setup
 
 The project includes a local PostgreSQL service in `docker-compose.yml`.

@@ -27,6 +27,8 @@ const categorySchema = z.object({
   name: z.string().trim().min(2).max(100),
   slug: z.string().trim().min(2).max(100).regex(/^[a-z0-9-]+$/),
   description: z.string().trim().max(500).optional(),
+  seoTitle: z.string().trim().max(120).optional(),
+  seoDescription: z.string().trim().max(320).optional(),
   sortOrder: z.coerce.number().int().min(0).max(100000),
 });
 
@@ -98,6 +100,8 @@ function categoryData(formData) {
     name: formData.get("name"),
     slug: formData.get("slug"),
     description: formData.get("description"),
+    seoTitle: formData.get("seoTitle"),
+    seoDescription: formData.get("seoDescription"),
     sortOrder: formData.get("sortOrder"),
   });
 }
@@ -233,6 +237,8 @@ export async function createCategoryAction(formData) {
         name: input.name,
         slug: input.slug,
         description: normalizeOptional(input.description),
+        seoTitle: normalizeOptional(input.seoTitle),
+        seoDescription: normalizeOptional(input.seoDescription),
         sortOrder: input.sortOrder,
       },
     });
@@ -243,6 +249,7 @@ export async function createCategoryAction(formData) {
 
   revalidatePath("/");
   revalidatePath("/products", "layout");
+  revalidatePath("/sitemap.xml");
   revalidatePath("/admin/categories");
   redirect(`/admin/categories/${category.id}/edit?created=1`);
 }
@@ -264,6 +271,8 @@ export async function updateCategoryAction(id, formData) {
         name: input.name,
         slug: input.slug,
         description: normalizeOptional(input.description),
+        seoTitle: normalizeOptional(input.seoTitle),
+        seoDescription: normalizeOptional(input.seoDescription),
         sortOrder: input.sortOrder,
       },
     });
@@ -274,6 +283,8 @@ export async function updateCategoryAction(id, formData) {
 
   revalidatePath("/");
   revalidatePath("/products", "layout");
+  revalidatePath(`/products/category/${input.slug}`);
+  revalidatePath("/sitemap.xml");
   revalidatePath("/admin/categories");
   redirect(`/admin/categories/${id}/edit?saved=1`);
 }
@@ -302,6 +313,7 @@ export async function deleteCategoryAction(id) {
   if (result !== "deleted") redirect(`/admin/categories?error=${result}`);
   revalidatePath("/");
   revalidatePath("/products", "layout");
+  revalidatePath("/sitemap.xml");
   revalidatePath("/admin/categories");
   redirect("/admin/categories?deleted=1");
 }

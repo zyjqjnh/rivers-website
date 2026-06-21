@@ -71,6 +71,8 @@ Edit `.env.production`:
 - Use the second value for `AUTH_SECRET`.
 - Set `ADMIN_EMAIL` and a separate strong `ADMIN_PASSWORD`.
 - Fill all `R2_*` values if admin image uploads should be enabled.
+- Keep `NEXT_PUBLIC_SITE_URL` set to `https://anrivers.com`.
+- After creating the URL-prefix property in Google Search Console, put only the HTML tag's `content` token in `GOOGLE_SITE_VERIFICATION`.
 
 Use a URL-safe database password such as hexadecimal text. This avoids needing to percent-encode special characters inside `DATABASE_URL`.
 
@@ -185,5 +187,7 @@ sudo certbot renew --dry-run
 
 - Website: `https://anrivers.com`
 - Products: `https://anrivers.com/products`
+- Sitemap: `https://anrivers.com/sitemap.xml`
+- Robots: `https://anrivers.com/robots.txt`
 - Admin: `https://anrivers.com/admin`
 - Health check: `https://anrivers.com/api/health`
