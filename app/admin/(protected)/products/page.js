@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Download, Plus } from "lucide-react";
 import { ProductActions } from "@/components/admin/ProductActions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,10 @@ export default async function AdminProductsPage({ searchParams }) {
     <>
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div><p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">Catalogue</p><h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Products</h1><p className="mt-2 text-sm text-muted-foreground">{products.length} products across the current catalogue.</p></div>
-        <Button asChild><Link href="/admin/products/new"><Plus />Add product</Link></Button>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" asChild><Link href="/admin/products/import"><Download />Import from Alibaba</Link></Button>
+          <Button asChild><Link href="/admin/products/new"><Plus />Add product</Link></Button>
+        </div>
       </div>
       {!databaseReady && <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">PostgreSQL is unavailable, so the catalogue is temporarily shown in read-only demo mode.</div>}
       {params?.deleted && <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">Product deleted.</div>}

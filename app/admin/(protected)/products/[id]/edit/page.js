@@ -3,6 +3,7 @@ import { updateProductAction } from "@/app/admin/actions";
 import { ProductForm } from "@/components/ProductForm";
 import { getCategories, getProductById } from "@/lib/products";
 import { isDatabaseConfigured } from "@/lib/prisma";
+import { isR2Configured } from "@/lib/r2";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,7 @@ export default async function EditProductPage({ params, searchParams }) {
       {!isDatabaseConfigured && <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">This demo product is read-only.</div>}
       {query?.saved && <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">Product changes saved.</div>}
       {query?.created && <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">Product created successfully.</div>}
-      <ProductForm action={updateProductAction.bind(null, id)} categories={categories} product={product} databaseReady={isDatabaseConfigured} />
+      <ProductForm action={updateProductAction.bind(null, id)} categories={categories} product={product} databaseReady={isDatabaseConfigured} storageReady={isR2Configured} />
     </>
   );
 }

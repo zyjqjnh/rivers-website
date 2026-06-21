@@ -129,6 +129,8 @@ model InquiryItem {
 
 model SiteSettings {
   id                      String   @id @default("site")
+  brandTitle              String   @default("RIVERS")
+  brandSubtitle           String   @default("RF CONTROL")
   whatsappEnabled         Boolean  @default(true)
   whatsappNumber          String   @default("")
   whatsappMessageTemplate String   @default("Hello, I am interested in {product}. Please send me more information.")

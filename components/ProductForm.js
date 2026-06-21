@@ -6,9 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploader } from "@/components/admin/ImageUploader";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
-import { isR2Configured } from "@/lib/r2";
 
-export function ProductForm({ action, categories, product, databaseReady }) {
+export function ProductForm({ action, categories, product, databaseReady, storageReady = false, submitLabel }) {
   const imageUrls = product?.images?.map((image) => image.url) || [];
   const specifications = product?.specifications?.map((spec) => `${spec.label}: ${spec.value}`).join("\n") || "";
 
@@ -32,7 +31,7 @@ export function ProductForm({ action, categories, product, databaseReady }) {
         <Card>
           <CardHeader><CardTitle>Media and specifications</CardTitle><CardDescription>Upload and arrange product images, then add one technical specification per line.</CardDescription></CardHeader>
           <CardContent className="space-y-5">
-            <Field label="Product images"><ImageUploader initialUrls={imageUrls} storageReady={isR2Configured} /></Field>
+            <Field label="Product images"><ImageUploader initialUrls={imageUrls} storageReady={storageReady} /></Field>
             <Field label="Specifications" hint={<>Use <code>Label: Value</code> format.</>}><Textarea className="min-h-36" name="specifications" defaultValue={specifications} placeholder={"Frequency: 433.92 MHz\nVoltage: DC 12V\nChannels: 4"} /></Field>
           </CardContent>
         </Card>
@@ -44,7 +43,7 @@ export function ProductForm({ action, categories, product, databaseReady }) {
             <Field label="SEO description"><Input name="seoDescription" defaultValue={product?.seoDescription || ""} /></Field>
           </CardContent>
           <CardFooter className="gap-3 border-t pt-6">
-            <Button type="submit">{product ? "Save product" : "Create product"}</Button>
+            <Button type="submit">{submitLabel || (product ? "Save product" : "Create product")}</Button>
             <Button variant="outline" asChild><Link href="/admin/products">Cancel</Link></Button>
           </CardFooter>
         </Card>

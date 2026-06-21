@@ -30,7 +30,7 @@ function productToFamily(product, index) {
   };
 }
 
-export function HomeClient({ products, categories }) {
+export function HomeClient({ products, categories, brand }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [activeProduct, setActiveProduct] = useState(0);
@@ -51,7 +51,7 @@ export function HomeClient({ products, categories }) {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <Link className="brand" href="#top" aria-label="Rivers home">RIVERS<span>RF CONTROL</span></Link>
+        <Link className="brand" href="#top" aria-label={`${brand.title} ${brand.subtitle} home`}>{brand.title}<span>{brand.subtitle}</span></Link>
         <button className="menu-button" type="button" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close" : "Menu"}</button>
         <nav className={menuOpen ? "nav open" : "nav"} aria-label="Main navigation">
           <ProductsNavMenu categories={categories} onNavigate={() => setMenuOpen(false)} />
@@ -149,7 +149,7 @@ export function HomeClient({ products, categories }) {
       </main>
 
       <footer>
-        <Link className="brand footer-brand" href="#top">RIVERS<span>RF CONTROL</span></Link>
+        <Link className="brand footer-brand" href="#top">{brand.title}<span>{brand.subtitle}</span></Link>
         <p>RF remote controls, receivers, modules and sensors.</p>
         <p>© 2026 Anqing Rivers Electronic Technology Co., Ltd.</p>
       </footer>

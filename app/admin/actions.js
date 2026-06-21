@@ -324,6 +324,33 @@ const whatsappSettingsSchema = z.object({
   whatsappMessageTemplate: z.string().trim().min(1).max(1000),
 });
 
+const siteIdentitySchema = z.object({
+  brandTitle: z.string().trim().min(1).max(40),
+  brandSubtitle: z.string().trim().min(1).max(60),
+});
+
+export async function saveSiteIdentitySettingsAction(formData) {
+  await requireAdmin();
+  requireDatabase();
+  const input = siteIdentitySchema.parse({
+    brandTitle: formData.get("brandTitle"),
+    brandSubtitle: formData.get("brandSubtitle"),
+  });
+
+  await prisma.siteSettings.upsert({
+    where: { id: "site" },
+    update: input,
+    create: {
+      id: "site",
+      ...input,
+    },
+  });
+
+  revalidatePath("/", "layout");
+  revalidatePath("/products", "layout");
+  redirect("/admin/site-settings?saved=1");
+}
+
 export async function saveWhatsAppSettingsAction(formData) {
   await requireAdmin();
   requireDatabase();
