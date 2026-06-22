@@ -10,6 +10,8 @@ When implementing from a selected generated mock, treat that image as the source
 
 - Use Cloudflare R2 for admin-uploaded product files. Upload directly from the browser with short-lived presigned URLs, and store the resulting public URLs in the existing `ProductImage` records.
 - Product detail pages should show multiple product images as an interactive gallery with arrows, thumbnails, and an image count. Hide carousel controls when a product has only one image.
+- Product detail gallery thumbnails should remain on one horizontal row and scroll sideways when there are more images than fit; do not wrap thumbnails onto additional rows.
+- When the active product image changes, automatically scroll the thumbnail strip just enough to keep the selected thumbnail visible, moving backward or forward as needed.
 - Product detail contact calls-to-action should open WhatsApp with a product-specific prefilled message. Manage the shared WhatsApp number, message template, and enabled state from a dedicated admin settings page.
 - The main “Products” navigation item should open the full product catalogue when clicked and expose a dropdown of current product categories. Category links should open the catalogue filtered to that category.
 - Admin category management should support creating, editing, listing, and deleting categories. A category must never be deleted while products still reference it; enforce this in the UI and again in the server action.

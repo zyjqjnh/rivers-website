@@ -297,8 +297,24 @@ textarea { min-height: 118px; resize: vertical; }
 .gallery-arrow-previous { left: 20px; }
 .gallery-arrow-next { right: 20px; }
 .gallery-count { position: absolute; right: 18px; bottom: 18px; padding: 8px 11px; background: rgba(7,27,51,.88); color: white; font-size: 11px; font-weight: 600; letter-spacing: .08em; }
-.gallery-thumbnails { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
-.gallery-thumbnail { aspect-ratio: 1; min-width: 0; padding: 0; overflow: hidden; border: 1px solid var(--line); background: white; cursor: pointer; transition: border-color 160ms ease, box-shadow 160ms ease; }
+.gallery-thumbnails {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 40px) / 5);
+  gap: 10px;
+  margin-top: 10px;
+  padding-bottom: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline proximity;
+  scrollbar-width: thin;
+  scrollbar-color: #aebac3 transparent;
+}
+.gallery-thumbnails::-webkit-scrollbar { height: 6px; }
+.gallery-thumbnails::-webkit-scrollbar-track { background: transparent; }
+.gallery-thumbnails::-webkit-scrollbar-thumb { border-radius: 999px; background: #aebac3; }
+.gallery-thumbnail { aspect-ratio: 1; min-width: 0; padding: 0; overflow: hidden; scroll-snap-align: start; border: 1px solid var(--line); background: white; cursor: pointer; transition: border-color 160ms ease, box-shadow 160ms ease; }
 .gallery-thumbnail:hover { border-color: #78909f; }
 .gallery-thumbnail.active { border-color: #159166; box-shadow: inset 0 0 0 2px #159166; }
 .gallery-thumbnail img { width: 100%; height: 100%; display: block; object-fit: contain; padding: 8px; }
@@ -426,7 +442,7 @@ textarea { min-height: 118px; resize: vertical; }
   .gallery-arrow { width: 40px; height: 40px; }
   .gallery-arrow-previous { left: 12px; }
   .gallery-arrow-next { right: 12px; }
-  .gallery-thumbnails { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .gallery-thumbnails { grid-auto-columns: calc((100% - 24px) / 4); gap: 8px; }
   .admin-sidebar { align-items: flex-start; }
   .admin-sidebar nav { flex-wrap: wrap; justify-content: flex-end; }
   .admin-content { padding: 34px 20px 70px; }
