@@ -109,13 +109,27 @@ export default async function ProductDetailPage({ params }) {
             <h1>{product.name}</h1>
             {product.modelNumber && <span className="model-number">MODEL · {product.modelNumber}</span>}
             <p className="product-lead">{product.shortDescription}</p>
-            {product.description && <div className="product-rich-text" dangerouslySetInnerHTML={{ __html: renderRichText(product.description) }} />}
-            <div className="spec-table">
-              {product.specifications?.map((spec) => <div className="spec-row" key={spec.id}><span>{spec.label}</span><strong>{spec.value}</strong></div>)}
-            </div>
             {whatsappUrl && <a className="whatsapp-button" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><MessageCircle />Chat on WhatsApp</a>}
           </div>
         </div>
+        {(product.description || product.specifications?.length > 0) && (
+          <div className="product-detail-information">
+            {product.description && (
+              <div className="product-detail-description">
+                <p className="eyebrow">Product details</p>
+                <div className="product-rich-text" dangerouslySetInnerHTML={{ __html: renderRichText(product.description) }} />
+              </div>
+            )}
+            {product.specifications?.length > 0 && (
+              <div className="product-detail-specifications">
+                <p className="eyebrow">Specifications</p>
+                <div className="spec-table">
+                  {product.specifications.map((spec) => <div className="spec-row" key={spec.id}><span>{spec.label}</span><strong>{spec.value}</strong></div>)}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </main>
     </div>
   );
