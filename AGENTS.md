@@ -15,6 +15,7 @@ When implementing from a selected generated mock, treat that image as the source
 - Keep long product detail titles compact in medium-width two-column layouts so they do not wrap into an excessively tall block; allow a larger title again when the page switches to a single-column layout.
 - Balance long product detail pages with two content tiers: keep the gallery and product summary in the top two-column section, then place the full description and specifications in a second two-column section below so neither side is left largely empty.
 - Make the lower product-detail description more prominent than supporting copy, using slightly larger and darker body text while keeping comfortable line spacing.
+- Give the product-detail WhatsApp call-to-action clear vertical separation from the summary text above it.
 - Product detail contact calls-to-action should open WhatsApp with a product-specific prefilled message. Manage the shared WhatsApp number, message template, and enabled state from a dedicated admin settings page.
 - The main “Products” navigation item should open the full product catalogue when clicked and expose a dropdown of current product categories. Category links should open the catalogue filtered to that category.
 - Admin category management should support creating, editing, listing, and deleting categories. A category must never be deleted while products still reference it; enforce this in the UI and again in the server action.

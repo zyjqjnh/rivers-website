@@ -343,6 +343,7 @@ textarea { min-height: 118px; resize: vertical; }
 .admin-button, .admin-button-secondary, .danger-button { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 10px 16px; border: 0; text-decoration: none; font-weight: 600; cursor: pointer; }
 .admin-button { background: var(--navy); color: white; }
 .whatsapp-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; padding: 12px 20px; background: #16a365; color: white; text-decoration: none; font-weight: 600; transition: background 160ms ease, transform 160ms ease; }
+.product-detail-copy .whatsapp-button { margin-top: 28px; }
 .whatsapp-button:hover { background: #108552; transform: translateY(-2px); }
 .whatsapp-button svg { width: 19px; height: 19px; }
 .admin-button-secondary { background: #e6edf1; color: var(--navy); }
