@@ -28,3 +28,4 @@ When implementing from a selected generated mock, treat that image as the source
 - Keep public SEO infrastructure database-aware: generate sitemap entries for published products and current categories at request time, disallow admin routes in robots.txt, mark admin pages `noindex`, and expose Google Search Console verification through an environment variable.
 - Admin product management should include an Alibaba.com import workflow: paste a public product URL, extract and rule-clean available product content, copy imported images to Cloudflare R2 when configured, preview and edit the result, and create it as a draft only after explicit confirmation. The first version must not depend on AI.
 - The public website brand title and subtitle shown in headers and the footer must be editable from a dedicated admin site settings page.
+- Public product catalogue and category pages must show at most 6 products per page, with URL-based pagination for additional products.

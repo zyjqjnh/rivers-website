@@ -278,6 +278,23 @@ textarea { min-height: 118px; resize: vertical; }
 .catalogue-card .meta { margin-bottom: 10px; color: #16865c; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .catalogue-card h2 { font-size: 24px; line-height: 1.2; letter-spacing: -.03em; }
 .catalogue-card p { color: #667480; line-height: 1.6; }
+.catalogue-pagination {
+  display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-top: 42px; padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+.catalogue-pagination-pages { display: flex; align-items: center; justify-content: center; gap: 7px; }
+.catalogue-pagination a { color: var(--navy); text-decoration: none; }
+.catalogue-pagination-direction { min-width: 74px; font-size: 13px; font-weight: 600; }
+.catalogue-pagination-direction:last-child { text-align: right; }
+.catalogue-pagination-direction:not(.disabled):hover { color: #0b7c53; }
+.catalogue-pagination-direction.disabled { color: #a8b1b8; pointer-events: none; }
+.catalogue-pagination-page {
+  width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line);
+  background: white; font-size: 13px; font-weight: 600; transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+.catalogue-pagination-page:hover { border-color: #8ba197; color: #0b7c53; }
+.catalogue-pagination-page[aria-current="page"] { border-color: var(--navy); background: var(--navy); color: white; }
+.catalogue-pagination-ellipsis { width: 28px; color: #7b8994; text-align: center; }
 .catalogue-empty { max-width: 620px; padding: 46px; background: white; border: 1px solid var(--line); }
 .catalogue-empty h2 { font-size: 30px; }
 .catalogue-empty p { color: #667480; line-height: 1.7; }
@@ -445,6 +462,11 @@ textarea { min-height: 118px; resize: vertical; }
   .catalogue-main, .product-detail-main { padding: 60px 20px 84px; }
   .catalogue-grid { grid-template-columns: 1fr; }
   .catalogue-card-image { height: 260px; }
+  .catalogue-pagination { gap: 10px; margin-top: 32px; padding-top: 22px; }
+  .catalogue-pagination-direction { min-width: auto; font-size: 12px; }
+  .catalogue-pagination-pages { gap: 4px; }
+  .catalogue-pagination-page { width: 34px; height: 36px; }
+  .catalogue-pagination-ellipsis { width: 18px; }
   .product-detail-image, .product-detail-image img { min-height: 380px; height: 380px; }
   .product-detail-image img { padding: 24px; }
   .product-detail-copy h1 { font-size: clamp(38px, 10vw, 48px); }

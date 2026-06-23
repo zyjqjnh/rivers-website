@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { CataloguePagination } from "@/components/CataloguePagination";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getCategories, getCategoryBySlug, getProducts } from "@/lib/products";
 import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+const PRODUCTS_PER_PAGE = 6;
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -32,8 +35,9 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function ProductCategoryPage({ params }) {
+export default async function ProductCategoryPage({ params, searchParams }) {
   const { slug } = await params;
+  const query = await searchParams;
   const [category, allProducts, categories] = await Promise.all([
     getCategoryBySlug(slug),
     getProducts(),
@@ -41,7 +45,18 @@ export default async function ProductCategoryPage({ params }) {
   ]);
   if (!category) notFound();
 
-  const products = allProducts.filter((product) => product.category?.slug === category.slug);
+  const categoryProducts = allProducts.filter((product) => product.category?.slug === category.slug);
+  const requestedPage = typeof query?.page === "string" && /^\d+$/.test(query.page) ? Number(query.page) : 1;
+  const totalPages = Math.max(1, Math.ceil(categoryProducts.length / PRODUCTS_PER_PAGE));
+  const currentPage = Math.min(Math.max(requestedPage, 1), totalPages);
+  const pathname = `/products/category/${category.slug}`;
+  if (requestedPage !== currentPage || query?.page === "1") {
+    redirect(currentPage === 1 ? pathname : `${pathname}?page=${currentPage}`);
+  }
+  const products = categoryProducts.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE,
+  );
   const structuredData = [
     {
       "@context": "https://schema.org",
@@ -63,7 +78,7 @@ export default async function ProductCategoryPage({ params }) {
       name: category.name,
       itemListElement: products.map((product, index) => ({
         "@type": "ListItem",
-        position: index + 1,
+        position: (currentPage - 1) * PRODUCTS_PER_PAGE + index + 1,
         name: product.name,
         url: absoluteUrl(`/products/${product.slug}`),
       })),
@@ -107,6 +122,11 @@ export default async function ProductCategoryPage({ params }) {
             <Link href="/products">View all products</Link>
           </div>
         )}
+        <CataloguePagination
+          currentPage={currentPage}
+          pathname={pathname}
+          totalPages={totalPages}
+        />
       </main>
     </div>
   );
