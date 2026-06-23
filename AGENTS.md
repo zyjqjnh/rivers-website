@@ -17,6 +17,7 @@ When implementing from a selected generated mock, treat that image as the source
 - Make the lower product-detail description more prominent than supporting copy, using slightly larger and darker body text while keeping comfortable line spacing.
 - Give the product-detail WhatsApp call-to-action clear vertical separation from the summary text above it.
 - Product detail contact calls-to-action should open WhatsApp with a product-specific prefilled message. Manage the shared WhatsApp number, message template, and enabled state from a dedicated admin settings page.
+- WhatsApp product inquiry messages must include both the product name and the canonical product page link. Support `{product}` and `{url}` in the admin message template, and append the product link automatically when an existing template omits `{url}`.
 - The main “Products” navigation item should open the full product catalogue when clicked and expose a dropdown of current product categories. Category links should open the catalogue filtered to that category.
 - Admin category management should support creating, editing, listing, and deleting categories. A category must never be deleted while products still reference it; enforce this in the UI and again in the server action.
 - Public RFQ submissions must be persisted as `Inquiry` records. The admin should have an Inquiries module with a chronological list and a detail view for the submitted contact and technical requirements.

@@ -31,7 +31,7 @@ export default async function WhatsAppSettingsPage({ searchParams }) {
             <CardHeader>
               <div className="mb-3 grid h-11 w-11 place-items-center rounded-lg bg-emerald-100 text-emerald-700"><MessageCircle /></div>
               <CardTitle>WhatsApp chat button</CardTitle>
-              <CardDescription>The product name is inserted wherever the message contains <code>{"{product}"}</code>.</CardDescription>
+              <CardDescription>Insert the current product name with <code>{"{product}"}</code> and its page link with <code>{"{url}"}</code>.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <label className="flex items-center justify-between gap-6 rounded-lg border bg-slate-50 p-4">
@@ -48,7 +48,7 @@ export default async function WhatsAppSettingsPage({ searchParams }) {
               <div className="space-y-2">
                 <Label htmlFor="whatsappMessageTemplate">Default message</Label>
                 <Textarea id="whatsappMessageTemplate" name="whatsappMessageTemplate" className="min-h-32" defaultValue={settings.whatsappMessageTemplate} />
-                <p className="text-xs leading-5 text-muted-foreground">Use <code>{"{product}"}</code> where the current product name should appear.</p>
+                <p className="text-xs leading-5 text-muted-foreground">Use <code>{"{product}"}</code> for the product name and <code>{"{url}"}</code> for its page link. If <code>{"{url}"}</code> is omitted, the link is appended automatically.</p>
               </div>
             </CardContent>
             <CardFooter className="border-t pt-6"><Button type="submit">Save WhatsApp settings</Button></CardFooter>

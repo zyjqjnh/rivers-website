@@ -48,8 +48,8 @@ export default async function ProductDetailPage({ params }) {
     getCategories(),
   ]);
   if (!product) notFound();
-  const whatsappUrl = getWhatsAppUrl(siteSettings, product.name);
   const productUrl = absoluteUrl(`/products/${product.slug}`);
+  const whatsappUrl = getWhatsAppUrl(siteSettings, product.name, productUrl);
   const productStructuredData = {
     "@context": "https://schema.org",
     "@type": "Product",
