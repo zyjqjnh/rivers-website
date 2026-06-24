@@ -214,9 +214,37 @@ export async function updateProductAction(id, formData) {
 export async function deleteProductAction(id) {
   await requireAdmin();
   requireDatabase();
-  await prisma.product.delete({ where: { id } });
+
+  let result;
+  try {
+    result = await prisma.$transaction(async (tx) => {
+      const product = await tx.product.findUnique({
+        where: { id },
+        select: {
+          slug: true,
+          category: { select: { slug: true } },
+          _count: { select: { inquiryItems: true } },
+        },
+      });
+
+      if (!product) return { status: "not-found" };
+      if (product._count.inquiryItems > 0) return { status: "has-inquiries" };
+
+      await tx.product.delete({ where: { id } });
+      return { status: "deleted", slug: product.slug, categorySlug: product.category?.slug };
+    });
+  } catch (error) {
+    if (isForeignKeyConstraintError(error)) redirect("/admin/products?error=has-inquiries");
+    throw error;
+  }
+
+  if (result.status !== "deleted") redirect(`/admin/products?error=${result.status}`);
+
   revalidatePath("/");
-  revalidatePath("/products");
+  revalidatePath("/products", "layout");
+  revalidatePath(`/products/${result.slug}`);
+  if (result.categorySlug) revalidatePath(`/products/category/${result.categorySlug}`);
+  revalidatePath("/sitemap.xml");
   redirect("/admin/products?deleted=1");
 }
 

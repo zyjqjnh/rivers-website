@@ -11,7 +11,7 @@ import { isDatabaseAvailable } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 export default async function AdminProductsPage({ searchParams }) {
-  const products = await getProducts({ includeDrafts: true });
+  const products = await getProducts({ includeDrafts: true, includeCounts: true });
   const databaseReady = await isDatabaseAvailable();
   const params = await searchParams;
   return (
@@ -25,6 +25,8 @@ export default async function AdminProductsPage({ searchParams }) {
       </div>
       {!databaseReady && <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">PostgreSQL is unavailable, so the catalogue is temporarily shown in read-only demo mode.</div>}
       {params?.deleted && <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">Product deleted.</div>}
+      {params?.error === "has-inquiries" && <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-900">This product cannot be deleted because one or more inquiries reference it. Archive it instead if it should be hidden from the public catalogue.</div>}
+      {params?.error === "not-found" && <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-900">That product was already deleted or could not be found.</div>}
       <Card>
         <CardHeader><CardTitle>Product catalogue</CardTitle><CardDescription>Manage publishing status, content and public product pages.</CardDescription></CardHeader>
         <CardContent className="p-0">

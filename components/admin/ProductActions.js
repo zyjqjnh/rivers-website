@@ -7,11 +7,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { DeleteProductButton } from "@/components/admin/DeleteProductButton";
 
 export function ProductActions({ product, canDelete }) {
+  const inquiryCount = product._count?.inquiryItems || 0;
   return (
     <div className="flex items-center justify-end gap-1">
       <Button variant="ghost" size="icon" asChild aria-label={`View ${product.name}`}><Link href={`/products/${product.slug}`}><ExternalLink /></Link></Button>
       <Button variant="ghost" size="icon" asChild aria-label={`Edit ${product.name}`}><Link href={`/admin/products/${product.id}/edit`}><Pencil /></Link></Button>
-      {canDelete && <DeleteProductButton id={product.id} name={product.name} />}
+      {canDelete && <DeleteProductButton id={product.id} name={product.name} inquiryCount={inquiryCount} />}
       <DropdownMenu>
         <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label="More actions"><MoreHorizontal /></Button></DropdownMenuTrigger>
         <DropdownMenuContent align="end">
