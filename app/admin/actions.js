@@ -230,6 +230,8 @@ export async function deleteProductAction(id) {
       if (!product) return { status: "not-found" };
       if (product._count.inquiryItems > 0) return { status: "has-inquiries" };
 
+      await tx.productImage.deleteMany({ where: { productId: id } });
+      await tx.productSpecification.deleteMany({ where: { productId: id } });
       await tx.product.delete({ where: { id } });
       return { status: "deleted", slug: product.slug, categorySlug: product.category?.slug };
     });

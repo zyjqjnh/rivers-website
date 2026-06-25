@@ -3,7 +3,7 @@
 import { Trash2 } from "lucide-react";
 import { deleteProductAction } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 export function DeleteProductButton({ id, name, inquiryCount = 0 }) {
   if (inquiryCount > 0) {
@@ -34,7 +34,7 @@ export function DeleteProductButton({ id, name, inquiryCount = 0 }) {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <form action={action} className="flex w-full sm:w-auto" style={{ margin: 0 }}>
-            <AlertDialogAction className="w-full sm:w-auto" type="submit">Delete product</AlertDialogAction>
+            <Button className="w-full sm:w-auto" variant="destructive" type="submit">Delete product</Button>
           </form>
         </AlertDialogFooter>
       </AlertDialogContent>
