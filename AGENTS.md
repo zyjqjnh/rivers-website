@@ -19,6 +19,7 @@ When implementing from a selected generated mock, treat that image as the source
 - Place a “Get a quote” action beside the product-detail WhatsApp button. It should open the existing RFQ form with the current product name and canonical URL prefilled in the requirements.
 - On mobile product detail pages, show the category, complete product title, and model before the image gallery, shorten the breadcrumb to products and category, and keep WhatsApp and “Get a quote” available in a fixed bottom contact bar.
 - Product detail contact calls-to-action should open WhatsApp with a product-specific prefilled message. Manage the shared WhatsApp number, message template, and enabled state from a dedicated admin settings page.
+- Keep the two inline product-detail contact buttons equal in width on desktop, without changing the mobile fixed contact bar.
 - WhatsApp product inquiry messages must include both the product name and the canonical product page link. Support `{product}` and `{url}` in the admin message template, and append the product link automatically when an existing template omits `{url}`.
 - The main “Products” navigation item should open the full product catalogue when clicked and expose a dropdown of current product categories. Category links should open the catalogue filtered to that category.
 - Admin category management should support creating, editing, listing, and deleting categories. A category must never be deleted while products still reference it; enforce this in the UI and again in the server action.

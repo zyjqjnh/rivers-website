@@ -397,6 +397,8 @@ textarea { min-height: 118px; resize: vertical; }
 .admin-button, .admin-button-secondary, .danger-button { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 10px 16px; border: 0; text-decoration: none; font-weight: 600; cursor: pointer; }
 .admin-button { background: var(--navy); color: white; }
 .product-contact-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.product-contact-actions-inline > .whatsapp-button,
+.product-contact-actions-inline > .quote-button { flex: 1 1 0; min-width: 0; }
 .product-contact-sticky { display: none; }
 .whatsapp-button, .quote-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; padding: 12px 20px; border: 0; color: white; font-weight: 600; cursor: pointer; transition: background 160ms ease, transform 160ms ease; }
 .whatsapp-button { background: #16a365; text-decoration: none; }
