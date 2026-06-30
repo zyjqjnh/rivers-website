@@ -396,10 +396,14 @@ textarea { min-height: 118px; resize: vertical; }
 .admin-topbar p { color: #687783; }
 .admin-button, .admin-button-secondary, .danger-button { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 10px 16px; border: 0; text-decoration: none; font-weight: 600; cursor: pointer; }
 .admin-button { background: var(--navy); color: white; }
-.whatsapp-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; padding: 12px 20px; background: #16a365; color: white; text-decoration: none; font-weight: 600; transition: background 160ms ease, transform 160ms ease; }
-.product-detail-copy .whatsapp-button { margin-top: 28px; }
+.product-contact-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.product-contact-sticky { display: none; }
+.whatsapp-button, .quote-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; padding: 12px 20px; border: 0; color: white; font-weight: 600; cursor: pointer; transition: background 160ms ease, transform 160ms ease; }
+.whatsapp-button { background: #16a365; text-decoration: none; }
+.quote-button { background: var(--navy); }
 .whatsapp-button:hover { background: #108552; transform: translateY(-2px); }
-.whatsapp-button svg { width: 19px; height: 19px; }
+.quote-button:hover { background: #123755; transform: translateY(-2px); }
+.whatsapp-button svg, .quote-button svg { width: 19px; height: 19px; }
 .admin-button-secondary { background: #e6edf1; color: var(--navy); }
 .danger-button { background: #ffe7e3; color: #a32b1d; }
 .setup-notice { margin-bottom: 28px; padding: 18px 20px; border-left: 4px solid #dca32d; background: #fff8e5; color: #6b521c; line-height: 1.6; }
@@ -482,6 +486,7 @@ textarea { min-height: 118px; resize: vertical; }
   .not-found-panel { min-height: 430px; }
   .catalogue-grid { grid-template-columns: repeat(2, 1fr); }
   .product-detail-grid, .product-detail-information { grid-template-columns: 1fr; }
+  .product-detail-copy { order: -1; }
   .product-detail-information { gap: 52px; margin-top: 58px; padding-top: 44px; }
   .product-detail-information > :only-child { grid-column: auto; max-width: none; }
   .product-detail-copy h1 { font-size: clamp(42px, 7vw, 60px); }
@@ -512,6 +517,9 @@ textarea { min-height: 118px; resize: vertical; }
   .not-found-readout strong { font-size: 9px; }
   .not-found-footer { padding-top: 44px; padding-bottom: 44px; }
   .catalogue-main, .product-detail-main { padding: 60px 20px 84px; }
+  .product-detail-main { padding-top: 36px; }
+  .breadcrumb { margin-bottom: 28px; }
+  .breadcrumb-current { display: none; }
   .catalogue-grid { grid-template-columns: 1fr; }
   .catalogue-card-image { height: 260px; }
   .catalogue-pagination { gap: 10px; margin-top: 32px; padding-top: 22px; }
@@ -521,11 +529,24 @@ textarea { min-height: 118px; resize: vertical; }
   .catalogue-pagination-ellipsis { width: 18px; }
   .product-detail-image, .product-detail-image img { min-height: 380px; height: 380px; }
   .product-detail-image img { padding: 24px; }
-  .product-detail-copy h1 { font-size: clamp(38px, 10vw, 48px); }
+  .product-detail-copy .eyebrow { margin-bottom: 14px; }
+  .product-detail-copy h1 { font-size: clamp(32px, 9vw, 40px); line-height: 1.06; }
+  .product-detail-copy .model-number { margin: 14px 0; }
+  .product-detail-copy .product-lead { margin: 0; font-size: 16px; line-height: 1.65; }
   .gallery-arrow { width: 40px; height: 40px; }
   .gallery-arrow-previous { left: 12px; }
   .gallery-arrow-next { right: 12px; }
   .gallery-thumbnails { grid-auto-columns: calc((100% - 24px) / 4); gap: 8px; }
+  .product-contact-actions-inline { display: none; }
+  .product-contact-sticky {
+    position: fixed; right: 0; bottom: 0; left: 0; z-index: 45;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line); background: rgba(247,249,251,.96);
+    box-shadow: 0 -12px 34px rgba(7,27,51,.12); backdrop-filter: blur(12px);
+  }
+  .product-contact-sticky .whatsapp-button, .product-contact-sticky .quote-button { min-height: 46px; padding-inline: 10px; font-size: 14px; }
+  .product-detail-shell { padding-bottom: calc(66px + env(safe-area-inset-bottom)); }
   .admin-sidebar { align-items: flex-start; }
   .admin-sidebar nav { flex-wrap: wrap; justify-content: flex-end; }
   .admin-content { padding: 34px 20px 70px; }

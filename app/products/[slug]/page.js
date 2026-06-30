@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MessageCircle } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
+import { ProductInquiryActions } from "@/components/ProductInquiryActions";
 import { getCategories, getProductBySlug } from "@/lib/products";
 import { renderRichText } from "@/lib/rich-text";
 import { getSiteSettings, getWhatsAppUrl } from "@/lib/site-settings";
@@ -100,7 +100,7 @@ export default async function ProductDetailPage({ params }) {
         <div className="breadcrumb">
           <Link href="/products">Products</Link>
           {product.category && <> / <Link href={`/products/category/${product.category.slug}`}>{product.category.name}</Link></>}
-          {" / "}{product.name}
+          <span className="breadcrumb-current"> / {product.name}</span>
         </div>
         <div className="product-detail-grid">
           <ProductImageGallery images={product.images || []} productName={product.name} />
@@ -109,7 +109,11 @@ export default async function ProductDetailPage({ params }) {
             <h1>{product.name}</h1>
             {product.modelNumber && <span className="model-number">MODEL · {product.modelNumber}</span>}
             <p className="product-lead">{product.shortDescription}</p>
-            {whatsappUrl && <a className="whatsapp-button" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><MessageCircle />Chat on WhatsApp</a>}
+            <ProductInquiryActions
+              productName={product.name}
+              productUrl={productUrl}
+              whatsappUrl={whatsappUrl}
+            />
           </div>
         </div>
         {(product.description || product.specifications?.length > 0) && (

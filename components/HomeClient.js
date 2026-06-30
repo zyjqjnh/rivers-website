@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ProductsNavMenu } from "@/components/ProductsNavMenu";
-import { createInquiryAction } from "@/app/inquiries/actions";
+import { InquiryModal } from "@/components/InquiryModal";
 
 const fallbackFamilies = [
   { name: "Remote Controllers", description: "Handheld and industrial transmitters from compact key fobs to 12-channel control.", specs: "315 / 433.92 / 868 MHz", image: "/assets/67d6ba3c0e8ef810.jpg", slug: "12-key-long-range-industrial-remote" },
@@ -38,11 +38,6 @@ export function HomeClient({ products, categories, brand }) {
     const mapped = products.map(productToFamily);
     return fallbackFamilies.map((fallback, index) => mapped[index] || fallback);
   }, [products]);
-
-  useEffect(() => {
-    document.body.style.overflow = inquiryOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [inquiryOpen]);
 
   const openInquiry = () => {
     setInquiryOpen(true);
@@ -154,44 +149,7 @@ export function HomeClient({ products, categories, brand }) {
         <p>© 2026 Anqing Rivers Electronic Technology Co., Ltd.</p>
       </footer>
 
-      {inquiryOpen && (
-        <div className="modal-backdrop" role="presentation" onMouseDown={() => setInquiryOpen(false)}>
-          <div className="inquiry-modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-title" onMouseDown={(event) => event.stopPropagation()}>
-            <button className="modal-close" type="button" onClick={() => setInquiryOpen(false)}>Close</button>
-            <InquiryForm onClose={() => setInquiryOpen(false)} />
-          </div>
-        </div>
-      )}
+      <InquiryModal open={inquiryOpen} onClose={() => setInquiryOpen(false)} />
     </div>
-  );
-}
-
-function InquiryForm({ onClose }) {
-  const [state, action, pending] = useActionState(createInquiryAction, { success: false, message: "" });
-
-  if (state.success) {
-    return (
-      <div className="success-state">
-        <p className="eyebrow">REQUIREMENT RECEIVED</p>
-        <h2>Thank you. We’ll review the details and reply shortly.</h2>
-        <p>Your requirement has been saved and shared with our team.</p>
-        <button className="primary-button" type="button" onClick={onClose}>Back to website</button>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <p className="eyebrow">START AN RFQ</p>
-      <h2 id="inquiry-title">Tell us what you need to control.</h2>
-      <p className="modal-intro">A few practical details help our engineers recommend the right setup.</p>
-      <form action={action}>
-        <label>Work email<input name="email" type="email" placeholder="name@company.com" required /></label>
-        <div className="form-row"><label>Voltage<input name="voltage" type="text" placeholder="e.g. DC 12V" required /></label><label>Control range<input name="range" type="text" placeholder="e.g. 500m" /></label></div>
-        <label>Application and requirements<textarea name="message" placeholder="Tell us the device, number of channels, control mode and expected quantity." required /></label>
-        {state.message && <p className="inquiry-error" role="alert">{state.message}</p>}
-        <button className="primary-button form-submit" type="submit" disabled={pending}>{pending ? "Submitting..." : "Submit requirement"}</button>
-      </form>
-    </>
   );
 }
