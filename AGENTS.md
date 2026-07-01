@@ -35,3 +35,4 @@ When implementing from a selected generated mock, treat that image as the source
 - Keep public product catalogue and category intro headings visually compact at desktop widths, capped around 68px so they do not dominate the left side of the page.
 - Keep clear vertical separation between public catalogue or category intro headings and the supporting paragraph below them.
 - When manually entering or importing products, write the `Full description` as substantial, polished English product copy with clear paragraphs, descriptive subheadings, and useful bullet lists instead of a single short paragraph.
+- Admin product management should provide URL-based pagination plus keyword, category, and publishing-status filters so list views remain shareable and survive refreshes.
