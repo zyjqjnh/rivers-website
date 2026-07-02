@@ -43,3 +43,35 @@ No actionable P0, P1, or P2 findings remain.
 - [P3] A vector master could be commissioned later for very large-format print and manufacturing artwork; the website asset is crisp at its intended sizes.
 
 final result: passed
+
+---
+
+# Admin product search icon alignment QA
+
+- Source visual truth path: `/tmp/rivers-ui-qa/source-target.png`
+- Implementation screenshot path: `/tmp/rivers-ui-qa/implementation-full.png`
+- Full-view comparison evidence: `/tmp/rivers-ui-qa/full-comparison.png`
+- Focused region comparison evidence: `/tmp/rivers-ui-qa/focus-comparison.png`
+- Viewport: 1048 × 460
+- State: authenticated admin product catalogue with the default search, category, and status filters
+
+## Findings
+
+No actionable P0, P1, or P2 findings remain. The source search icon was centered against a 58px stretched grid item, placing its center 9px below the 40px input center. The implementation constrains the icon wrapper to 40px, and measured icon/input centers now match exactly.
+
+## Required fidelity surfaces
+
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: the search input, filter columns, card, and table retain their existing dimensions; only the icon positioning context changed.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: the existing Lucide search icon remains unchanged and renders sharply.
+- Copy and content: unchanged.
+- Interaction and responsiveness: form controls and URL-based filtering remain intact; the fixed 40px wrapper matches the input height at all breakpoints.
+
+## Patches made since the previous QA pass
+
+- Added `h-10` to the relative search-icon wrapper.
+- Recorded the alignment rule in `AGENTS.md`.
+- Ran a successful production build.
+
+final result: passed

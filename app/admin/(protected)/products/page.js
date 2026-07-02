@@ -71,7 +71,7 @@ export default async function AdminProductsPage({ searchParams }) {
           <CardTitle>Product catalogue</CardTitle>
           <CardDescription>Manage publishing status, content and public product pages.</CardDescription>
           <form className="grid gap-3 pt-3 lg:grid-cols-[minmax(240px,1fr)_220px_180px_auto]" method="get">
-            <div className="relative">
+            <div className="relative h-10">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input className="pl-9" name="q" defaultValue={query} placeholder="Search name, model or slug" aria-label="Search products" />
             </div>

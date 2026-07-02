@@ -36,5 +36,6 @@ When implementing from a selected generated mock, treat that image as the source
 - Keep clear vertical separation between public catalogue or category intro headings and the supporting paragraph below them.
 - When manually entering or importing products, write the `Full description` as substantial, polished English product copy with clear paragraphs, descriptive subheadings, and useful bullet lists instead of a single short paragraph.
 - Admin product management should provide URL-based pagination plus keyword, category, and publishing-status filters so list views remain shareable and survive refreshes.
+- Keep the admin product-list search icon centered within the 40px search input; do not let a stretched filter-grid row shift the icon vertically.
 - Use the selected ANRIVERS “River A” icon direction for the brand identity: a geometric navy `A` combined with a green flowing signal/river path and terminal node. Keep the mark flat, using only `#071B33` and `#53E39A`.
 - On dark surfaces such as the public footer, use the reversed River A icon with a white main shape and the original signal-green accent so the full mark remains visible.
