@@ -5,8 +5,8 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Rivers RF Control — Wireless Control, Engineered to Fit",
-    template: "%s | Rivers RF Control",
+    default: "ANRIVERS RF Control — Wireless Control, Engineered to Fit",
+    template: "%s | ANRIVERS RF Control",
   },
   description: SITE_DESCRIPTION,
   alternates: {
@@ -15,13 +15,13 @@ export const metadata = {
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
-    title: "Rivers RF Control — Wireless Control, Engineered to Fit",
+    title: "ANRIVERS RF Control — Wireless Control, Engineered to Fit",
     description: SITE_DESCRIPTION,
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rivers RF Control — Wireless Control, Engineered to Fit",
+    title: "ANRIVERS RF Control — Wireless Control, Engineered to Fit",
     description: SITE_DESCRIPTION,
   },
   verification: {

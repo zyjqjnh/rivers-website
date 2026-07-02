@@ -30,12 +30,12 @@ export default async function SiteSettingsPage({ searchParams }) {
             <CardHeader>
               <div className="mb-3 grid h-11 w-11 place-items-center rounded-lg bg-emerald-100 text-emerald-700"><Type /></div>
               <CardTitle>Public brand title</CardTitle>
-              <CardDescription>These two lines replace “RIVERS” and “RF CONTROL” across the public website.</CardDescription>
+              <CardDescription>These two lines replace “ANRIVERS” and “RF CONTROL” across the public website.</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-6 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="brandTitle">Main title</Label>
-                <Input id="brandTitle" name="brandTitle" defaultValue={settings.brandTitle || "RIVERS"} maxLength={40} required />
+                <Input id="brandTitle" name="brandTitle" defaultValue={settings.brandTitle || "ANRIVERS"} maxLength={40} required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="brandSubtitle">Subtitle</Label>

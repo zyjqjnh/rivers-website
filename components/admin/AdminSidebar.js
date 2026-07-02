@@ -21,7 +21,7 @@ export function AdminSidebar({ user }) {
     <aside className="flex min-h-screen w-64 shrink-0 flex-col border-r bg-slate-950 text-slate-100 max-lg:min-h-0 max-lg:w-full">
       <div className="flex h-20 items-center gap-3 border-b border-white/10 px-6">
         <div className="grid h-10 w-10 place-items-center rounded-lg bg-emerald-400 text-slate-950"><RadioTower className="h-5 w-5" /></div>
-        <div><div className="text-sm font-semibold tracking-[0.18em]">RIVERS</div><div className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Control Center</div></div>
+        <div><div className="text-sm font-semibold tracking-[0.18em]">ANRIVERS</div><div className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Control Center</div></div>
       </div>
       <nav className="flex flex-1 flex-col gap-1 p-4 max-lg:flex-row max-lg:flex-wrap">
         {navigation.map(({ href, label, icon: Icon }) => (

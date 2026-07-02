@@ -8,13 +8,13 @@ import { absoluteUrl } from "@/lib/seo";
 
 export const metadata = {
   title: "RF Products",
-  description: "Browse RF remote controllers, receivers, modules and sensors from Rivers RF Control.",
+  description: "Browse RF remote controllers, receivers, modules and sensors from ANRIVERS RF Control.",
   alternates: {
     canonical: "/products",
   },
   openGraph: {
     title: "RF Products",
-    description: "Browse RF remote controllers, receivers, modules and sensors from Rivers RF Control.",
+    description: "Browse RF remote controllers, receivers, modules and sensors from ANRIVERS RF Control.",
     url: "/products",
   },
 };
@@ -41,7 +41,7 @@ export default async function ProductsPage({ searchParams }) {
   const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Rivers RF Control product catalogue",
+    name: "ANRIVERS RF Control product catalogue",
     itemListElement: products.map((product, index) => ({
       "@type": "ListItem",
       position: (currentPage - 1) * PRODUCTS_PER_PAGE + index + 1,

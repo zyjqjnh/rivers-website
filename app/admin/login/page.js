@@ -15,7 +15,7 @@ export default async function LoginPage({ searchParams }) {
   return (
     <main className="grid min-h-screen place-items-center bg-slate-950 p-6">
       <Card className="w-full max-w-md border-white/10">
-        <CardHeader><p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">Rivers admin</p><CardTitle className="text-3xl">Product management</CardTitle><CardDescription>Sign in with your administrator account.</CardDescription></CardHeader>
+        <CardHeader><p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">ANRIVERS admin</p><CardTitle className="text-3xl">Product management</CardTitle><CardDescription>Sign in with your administrator account.</CardDescription></CardHeader>
         <CardContent>
           {error === "invalid" && <p className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700">Incorrect email or password.</p>}
           {error === "setup" && <p className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700">Authentication is not ready. Check the database, AUTH_SECRET, and initial administrator seed.</p>}

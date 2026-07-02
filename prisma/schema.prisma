@@ -129,7 +129,7 @@ model InquiryItem {
 
 model SiteSettings {
   id                      String   @id @default("site")
-  brandTitle              String   @default("RIVERS")
+  brandTitle              String   @default("ANRIVERS")
   brandSubtitle           String   @default("RF CONTROL")
   whatsappEnabled         Boolean  @default(true)
   whatsappNumber          String   @default("")

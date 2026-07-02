@@ -47,7 +47,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   padding: 0 5.5vw; background: rgba(247,249,251,.96); border-bottom: 1px solid var(--line); position: relative; z-index: 20;
 }
 .brand { color: var(--navy); text-decoration: none; font-family: "Manrope", sans-serif; font-size: 21px; line-height: 1; font-weight: 700; letter-spacing: .18em; justify-self: start; }
-.brand span { display: block; margin-top: 7px; font-family: "DM Sans", sans-serif; font-size: 8px; font-weight: 600; letter-spacing: .32em; color: #4f687e; }
+.brand-lockup { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.brand-mark { width: 40px; height: 40px; display: block; flex: none; object-fit: contain; }
+.brand-copy { display: block; min-width: 0; }
+.brand-title { display: block; white-space: nowrap; }
+.brand-subtitle { display: block; margin-top: 7px; font-family: "DM Sans", sans-serif; font-size: 8px; font-weight: 600; letter-spacing: .32em; color: #4f687e; white-space: nowrap; }
 .nav { display: flex; gap: 34px; align-items: center; }
 .nav a { color: #26384a; text-decoration: none; font-size: 14px; font-weight: 500; }
 .nav a:hover { color: #0b9c64; }
@@ -166,7 +170,10 @@ h1 { max-width: 720px; font-size: clamp(58px,6.2vw,96px); line-height: .96; font
 .light-button { margin-top: 28px; padding: 15px 20px; background: white; color: var(--navy); }
 .light-button:hover { background: var(--green); transform: translateY(-2px); }
 footer { min-height: 160px; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 30px; padding: 32px 5.5vw; background: #061728; color: #8799a8; font-size: 12px; }
-.footer-brand { color: white; } footer p:last-child { text-align: right; }
+.footer-brand { color: white; }
+.footer-brand .brand-mark { width: 44px; height: 44px; }
+.footer-brand .brand-subtitle { color: #8799a8; }
+footer p:last-child { text-align: right; }
 
 .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; background: rgba(1,14,27,.78); backdrop-filter: blur(5px); }
 .inquiry-modal { position: relative; width: min(680px,100%); max-height: calc(100vh - 48px); overflow-y: auto; padding: 54px; background: #f8fafb; box-shadow: 0 30px 100px rgba(0,0,0,.35); }
@@ -217,6 +224,8 @@ textarea { min-height: 118px; resize: vertical; }
   .site-header { height: 70px; padding-inline: 20px; gap: 18px; }
   .nav { top: 70px; padding-inline: 20px; }
   .brand { font-size: 17px; }
+  .brand-lockup { gap: 8px; }
+  .brand-mark { width: 34px; height: 34px; }
   .header-cta { display: none; }
   .hero { min-height: auto; gap: 52px; padding: 60px 20px 38px; }
   h1 { font-size: clamp(48px,15vw,68px); }

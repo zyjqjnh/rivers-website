@@ -1,47 +1,45 @@
 # Design QA
 
-- Source visual truth: selected `Precision Engineered` homepage direction.
-- Implementation screenshots: `next-home.png`, `next-admin.png`.
-- Public viewport: 1347 × 727 plus full-page capture.
-- State: Next.js homepage, catalogue, product detail, admin login and demo admin product list.
+- Source visual truth: `public/brand-concepts/anrivers-icon-02-river-a-flat.png`
+- Implementation screenshots: `logo-implementation-desktop.png`, `logo-implementation-mobile.png`, `logo-implementation-footer-mobile.png`
+- Combined comparison evidence: `logo-design-qa-comparison.png`
+- Viewports: 1440 × 900 desktop and 390 × 844 mobile
+- State: public homepage with the ANRIVERS header and footer brand lockups
 
 ## Full-view comparison evidence
 
-The migrated Next.js homepage preserves the approved visual hierarchy: technical grid, oversized left-aligned headline, product-led hero, dark proof strip, four-family product system, application section, and navy/green engineering palette. The migration did not introduce layout or typography drift.
+The 1440 × 900 implementation keeps the existing three-column header balance and places the selected River A mark beside the ANRIVERS wordmark without shifting the navigation or RFQ action. The 390 × 844 implementation keeps the mark and wordmark legible while leaving clear space for the mobile menu.
 
 ## Focused region comparison evidence
 
-- Homepage hero and product-family section were visually checked after App Router migration.
-- `/products` was checked for catalogue hierarchy, card imagery and working detail links.
-- `/admin/login` was authenticated with the local preview credentials.
-- `/admin/products` was checked for sidebar layout, demo-mode notice, product rows, statuses and edit links.
-- Production `next build` completed successfully.
+The combined comparison shows the selected navy-and-green River A source beside the rendered homepage and a focused header crop. The implementation uses the source asset directly, preserves its transparent background, and does not reconstruct the mark with CSS or inline SVG.
 
 ## Required fidelity surfaces
 
-- Fonts and typography: Manrope/DM Sans hierarchy is preserved.
-- Spacing and layout rhythm: homepage spacing remains consistent; catalogue and admin use the same design language.
-- Colors and tokens: navy, signal green, cool white and gray remain consistent.
-- Image quality and asset fidelity: real product imagery is used throughout public and admin surfaces.
-- Copy and content: product catalogue, specifications and setup guidance are coherent and useful.
-- Responsiveness: existing responsive homepage rules remain active; catalogue and admin have tablet/mobile fallbacks.
-- Accessibility and behavior: semantic links, labelled forms, focus styles, protected admin session and disabled editing in demo mode are present.
+- Fonts and typography: existing Manrope/DM Sans brand hierarchy is preserved; ANRIVERS and RF CONTROL remain legible at both tested breakpoints.
+- Spacing and layout rhythm: the mark aligns optically with the two-line wordmark; desktop and mobile header heights remain unchanged.
+- Colors and visual tokens: the asset uses only navy `#071B33` and signal green `#53E39A`, matching the site tokens.
+- Image quality and asset fidelity: a 512 × 512 transparent PNG is rendered at 40px desktop and 34px mobile with no visible halo or stretching.
+- Dark-surface contrast: the footer uses a dedicated white-and-signal-green reversed asset, keeping the complete River A silhouette visible against navy.
+- Copy and content: default public brand text, metadata, Open Graph text, and the editable settings fallback now use ANRIVERS.
+- Responsiveness: navigation and mobile menu do not overlap the wider brand lockup.
+- Browser identity: generated `favicon.ico` and `icon.png` are present and linked by Next.js metadata.
 
 ## Findings
 
-No actionable P0, P1 or P2 findings remain for the migration foundation.
+No actionable P0, P1, or P2 findings remain.
 
 ## Patches made
 
-- Migrated Vite/React to Next.js 16 App Router.
-- Added PostgreSQL Prisma models, demo fallback data and seed workflow.
-- Added public product list and product detail pages.
-- Added password-protected product management with create, edit and delete server actions.
-- Added database-aware read-only demo mode.
+- Added a shared `BrandLogo` component for the homepage, catalogue/detail header, footer, and 404 page.
+- Added the selected River A image as the public brand asset.
+- Added favicon and application icon assets.
+- Updated default brand settings, SEO metadata, and the database default/migration from RIVERS to ANRIVERS.
+- Verified a successful production build and desktop/mobile browser rendering.
+- Added and browser-verified a dedicated reversed icon after the original navy mark lacked contrast in the dark footer.
 
 ## Follow-up polish
 
-- [P3] Add direct Cloudflare R2/S3 binary uploads to replace the current image-URL field.
-- [P3] Add category CRUD and inquiry persistence UI.
+- [P3] A vector master could be commissioned later for very large-format print and manufacturing artwork; the website asset is crisp at its intended sizes.
 
 final result: passed

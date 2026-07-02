@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { ProductsNavMenu } from "@/components/ProductsNavMenu";
 import { InquiryModal } from "@/components/InquiryModal";
 
@@ -46,7 +47,7 @@ export function HomeClient({ products, categories, brand }) {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <Link className="brand" href="#top" aria-label={`${brand.title} ${brand.subtitle} home`}>{brand.title}<span>{brand.subtitle}</span></Link>
+        <BrandLogo brand={brand} href="#top" ariaLabel={`${brand.title} ${brand.subtitle} home`} />
         <button className="menu-button" type="button" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close" : "Menu"}</button>
         <nav className={menuOpen ? "nav open" : "nav"} aria-label="Main navigation">
           <ProductsNavMenu categories={categories} onNavigate={() => setMenuOpen(false)} />
@@ -139,12 +140,12 @@ export function HomeClient({ products, categories, brand }) {
 
         <section className="about-section" id="about">
           <div><p className="eyebrow light">ANQING · CHINA</p><h2>A responsive RF control partner for teams building real products.</h2></div>
-          <div><p>Rivers combines 15 years of RF product experience with a practical, buyer-friendly process. Our products serve customers across North America, Europe, Australia, Japan, South Korea and Africa.</p><button className="light-button" type="button" onClick={openInquiry}>Work with Rivers</button></div>
+          <div><p>ANRIVERS combines 15 years of RF product experience with a practical, buyer-friendly process. Our products serve customers across North America, Europe, Australia, Japan, South Korea and Africa.</p><button className="light-button" type="button" onClick={openInquiry}>Work with ANRIVERS</button></div>
         </section>
       </main>
 
       <footer>
-        <Link className="brand footer-brand" href="#top">{brand.title}<span>{brand.subtitle}</span></Link>
+        <BrandLogo brand={brand} href="#top" className="footer-brand" theme="dark" />
         <p>RF remote controls, receivers, modules and sensors.</p>
         <p>© 2026 Anqing Rivers Electronic Technology Co., Ltd.</p>
       </footer>

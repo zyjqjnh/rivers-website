@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
   const description =
     category.seoDescription ||
     category.description ||
-    `Browse ${category.name.toLowerCase()} from Rivers RF Control.`;
+    `Browse ${category.name.toLowerCase()} from ANRIVERS RF Control.`;
 
   return {
     title,
