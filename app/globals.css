@@ -352,6 +352,15 @@ textarea { min-height: 118px; resize: vertical; }
 .product-gallery { min-width: 0; }
 .product-detail-image { min-height: 580px; position: relative; overflow: hidden; background: white; border: 1px solid var(--line); }
 .product-detail-image img { width: 100%; height: 580px; object-fit: contain; padding: 44px; }
+.gallery-image-trigger { width: 100%; height: 100%; display: block; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+.gallery-image-trigger:focus-visible { outline: 3px solid var(--green); outline-offset: -3px; }
+.gallery-zoom-hint {
+  position: absolute; right: 18px; top: 18px; width: 38px; height: 38px; display: grid; place-items: center;
+  border: 1px solid rgba(7,27,51,.12); border-radius: 50%; background: rgba(255,255,255,.92); color: var(--navy);
+  box-shadow: 0 8px 24px rgba(7,27,51,.08); pointer-events: none; transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+.gallery-zoom-hint svg { width: 17px; height: 17px; }
+.gallery-image-trigger:hover .gallery-zoom-hint { background: var(--navy); color: white; transform: scale(1.04); }
 .gallery-arrow {
   position: absolute; top: 50%; z-index: 2; width: 46px; height: 46px; display: grid; place-items: center;
   border: 1px solid rgba(7,27,51,.14); border-radius: 50%; background: rgba(255,255,255,.92); color: var(--navy);
@@ -384,6 +393,29 @@ textarea { min-height: 118px; resize: vertical; }
 .gallery-thumbnail:hover { border-color: #78909f; }
 .gallery-thumbnail.active { border-color: #159166; box-shadow: inset 0 0 0 2px #159166; }
 .gallery-thumbnail img { width: 100%; height: 100%; display: block; object-fit: contain; padding: 8px; }
+.gallery-lightbox {
+  position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; padding: 64px 76px;
+  background: rgba(2,14,27,.94); backdrop-filter: blur(8px); touch-action: pan-y;
+}
+.gallery-lightbox-stage {
+  width: 100%; height: calc(100vh - 128px); height: calc(100dvh - 128px);
+  position: relative; display: grid; place-items: center; min-width: 0; min-height: 0;
+}
+.gallery-lightbox-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; }
+.gallery-lightbox-close, .gallery-lightbox-arrow {
+  border: 1px solid rgba(255,255,255,.28); border-radius: 50%; background: rgba(255,255,255,.12); color: white;
+  cursor: pointer; transition: background 160ms ease, transform 160ms ease;
+}
+.gallery-lightbox-close:hover, .gallery-lightbox-arrow:hover { background: rgba(255,255,255,.24); }
+.gallery-lightbox-close:focus-visible, .gallery-lightbox-arrow:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+.gallery-lightbox-close { position: absolute; top: 18px; right: 20px; z-index: 2; width: 46px; height: 46px; display: grid; place-items: center; }
+.gallery-lightbox-close svg { width: 22px; height: 22px; }
+.gallery-lightbox-arrow { position: absolute; top: 50%; z-index: 2; width: 52px; height: 52px; display: grid; place-items: center; transform: translateY(-50%); }
+.gallery-lightbox-arrow:hover { transform: translateY(-50%) scale(1.04); }
+.gallery-lightbox-arrow svg { width: 24px; height: 24px; }
+.gallery-lightbox-previous { left: -62px; }
+.gallery-lightbox-next { right: -62px; }
+.gallery-lightbox-count { position: absolute; bottom: 20px; left: 50%; color: white; font-size: 12px; font-weight: 600; letter-spacing: .1em; transform: translateX(-50%); }
 .breadcrumb { margin-bottom: 34px; color: #73808a; font-size: 12px; }
 .breadcrumb a { color: inherit; }
 .product-detail-copy h1 { font-size: clamp(36px, 3vw, 52px); line-height: 1.04; }
@@ -540,6 +572,7 @@ textarea { min-height: 118px; resize: vertical; }
   .catalogue-pagination-ellipsis { width: 18px; }
   .product-detail-image, .product-detail-image img { min-height: 380px; height: 380px; }
   .product-detail-image img { padding: 24px; }
+  .gallery-zoom-hint { top: 12px; right: 12px; width: 36px; height: 36px; }
   .product-detail-copy .eyebrow { margin-bottom: 14px; }
   .product-detail-copy h1 { font-size: clamp(32px, 9vw, 40px); line-height: 1.06; }
   .product-detail-copy .model-number { margin: 14px 0; }
@@ -548,6 +581,13 @@ textarea { min-height: 118px; resize: vertical; }
   .gallery-arrow-previous { left: 12px; }
   .gallery-arrow-next { right: 12px; }
   .gallery-thumbnails { grid-auto-columns: calc((100% - 24px) / 4); gap: 8px; }
+  .gallery-lightbox { padding: 62px 14px 58px; }
+  .gallery-lightbox-stage { height: calc(100vh - 120px); height: calc(100dvh - 120px); }
+  .gallery-lightbox-close { top: 12px; right: 12px; width: 42px; height: 42px; }
+  .gallery-lightbox-arrow { width: 44px; height: 44px; background: rgba(2,14,27,.62); }
+  .gallery-lightbox-previous { left: 4px; }
+  .gallery-lightbox-next { right: 4px; }
+  .gallery-lightbox-count { bottom: 17px; }
   .product-contact-actions-inline { display: none; }
   .product-contact-sticky {
     position: fixed; right: 0; bottom: 0; left: 0; z-index: 45;

@@ -12,6 +12,7 @@ When implementing from a selected generated mock, treat that image as the source
 - Product detail pages should show multiple product images as an interactive gallery with arrows, thumbnails, and an image count. Hide carousel controls when a product has only one image.
 - Product detail gallery thumbnails should remain on one horizontal row and scroll sideways when there are more images than fit; do not wrap thumbnails onto additional rows.
 - When the active product image changes, automatically scroll the thumbnail strip just enough to keep the selected thumbnail visible, moving backward or forward as needed.
+- Product detail main images should open an accessible full-screen lightbox when clicked or tapped, with desktop and mobile controls, keyboard navigation, and touch swiping between images.
 - Keep long product detail titles compact in medium-width two-column layouts so they do not wrap into an excessively tall block; allow a larger title again when the page switches to a single-column layout.
 - Balance long product detail pages with two content tiers: keep the gallery and product summary in the top two-column section, then place the full description and specifications in a second two-column section below so neither side is left largely empty.
 - Make the lower product-detail description more prominent than supporting copy, using slightly larger and darker body text while keeping comfortable line spacing.
