@@ -522,6 +522,24 @@ textarea { min-height: 118px; resize: vertical; }
 .login-card h1 { font-size: 42px; }
 .login-card > p { color: #687783; line-height: 1.6; }
 .error-message { padding: 12px 14px; background: #ffe7e3; color: #9f261b; font-size: 13px; }
+.analytics-consent {
+  position: fixed; right: 24px; bottom: 24px; left: 24px; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between; gap: 28px;
+  max-width: 920px; margin: 0 auto; padding: 20px 22px;
+  border: 1px solid rgba(255,255,255,.16); background: #071b33; color: white;
+  box-shadow: 0 20px 60px rgba(7,27,51,.28);
+}
+.analytics-consent strong { display: block; margin-bottom: 5px; font-size: 15px; }
+.analytics-consent p { max-width: 640px; margin: 0; color: #c6d0d8; font-size: 13px; line-height: 1.55; }
+.analytics-consent-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 10px; }
+.analytics-consent button, .analytics-settings { border: 0; font: inherit; cursor: pointer; }
+.analytics-consent-reject { padding: 10px 13px; background: transparent; color: #d6dee4; }
+.analytics-consent-accept { padding: 11px 15px; background: var(--green); color: #071b33; font-weight: 700; }
+.analytics-settings {
+  position: fixed; bottom: 12px; left: 12px; z-index: 44; padding: 7px 9px;
+  border: 1px solid rgba(7,27,51,.14); background: rgba(255,255,255,.9); color: #536575;
+  font-size: 10px; backdrop-filter: blur(10px);
+}
 
 @media (max-width: 950px) {
   .not-found-main { min-height: 0; grid-template-columns: 1fr; gap: 72px; }
@@ -542,6 +560,9 @@ textarea { min-height: 118px; resize: vertical; }
 }
 
 @media (max-width: 650px) {
+  .analytics-consent { right: 12px; bottom: 12px; left: 12px; align-items: stretch; flex-direction: column; gap: 16px; padding: 18px; }
+  .analytics-consent-actions { justify-content: flex-end; }
+  .analytics-settings { bottom: calc(78px + env(safe-area-inset-bottom)); }
   .simple-header { padding: 18px 20px; align-items: flex-start; }
   .simple-nav { flex-direction: column; align-items: flex-end; gap: 10px; }
   .simple-nav .products-dropdown {

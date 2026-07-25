@@ -52,6 +52,28 @@ Open:
 
 Without `DATABASE_URL`, the public catalogue and admin preview use read-only demo data. Product editing becomes active after PostgreSQL is configured and migrated.
 
+## Google Analytics 4
+
+Set `NEXT_PUBLIC_GA_MEASUREMENT_ID` to the measurement ID from the GA4 web data stream:
+
+```bash
+NEXT_PUBLIC_GA_MEASUREMENT_ID="G-XXXXXXXXXX"
+```
+
+The Google tag loads on public pages only after the visitor accepts analytics cookies. Admin routes are excluded. In the GA4 web data stream, keep enhanced measurement enabled so page loads and Next.js browser-history changes are collected automatically.
+
+The site sends these business events without form contents or contact details:
+
+- `rfq_start`
+- `generate_lead`
+- `whatsapp_click`
+- `catalog_click`
+- `category_click`
+- `product_family_select`
+- `view_product_click`
+
+Mark `generate_lead` as a key event in GA4. Register `cta_location`, `product_name`, `category_name`, and `inquiry_type` as event-scoped custom dimensions if they are needed in standard reports.
+
 ## Current management foundation
 
 - Product and category schema

@@ -1,4 +1,5 @@
 import "./globals.css";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
       <body>
         <JsonLd data={organization} />
         {children}
+        <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
       </body>
     </html>
   );

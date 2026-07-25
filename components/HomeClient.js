@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductsNavMenu } from "@/components/ProductsNavMenu";
 import { InquiryModal } from "@/components/InquiryModal";
+import { trackEvent } from "@/lib/analytics";
 
 const fallbackFamilies = [
   { name: "Remote Controllers", description: "Handheld and industrial transmitters from compact key fobs to 12-channel control.", specs: "315 / 433.92 / 868 MHz", image: "/assets/67d6ba3c0e8ef810.jpg", slug: "12-key-long-range-industrial-remote" },
@@ -40,7 +41,8 @@ export function HomeClient({ products, categories, brand }) {
     return fallbackFamilies.map((fallback, index) => mapped[index] || fallback);
   }, [products]);
 
-  const openInquiry = () => {
+  const openInquiry = (ctaLocation) => {
+    trackEvent("rfq_start", { cta_location: ctaLocation });
     setInquiryOpen(true);
   };
 
@@ -55,7 +57,7 @@ export function HomeClient({ products, categories, brand }) {
           <Link href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</Link>
           <Link href="#about" onClick={() => setMenuOpen(false)}>About</Link>
         </nav>
-        <button className="header-cta" type="button" onClick={openInquiry}>Start an RFQ</button>
+        <button className="header-cta" type="button" onClick={() => openInquiry("header")}>Start an RFQ</button>
       </header>
 
       <main id="top">
@@ -65,8 +67,8 @@ export function HomeClient({ products, categories, brand }) {
             <h1>Wireless control,<br />engineered to fit.</h1>
             <p className="hero-description">RF remote controls, receivers and modules for access control, motors, lighting and smart devices.</p>
             <div className="hero-actions">
-              <button className="primary-button" type="button" onClick={openInquiry}>Request a custom solution</button>
-              <Link className="text-link" href="/products">Explore products</Link>
+              <button className="primary-button" type="button" onClick={() => openInquiry("hero")}>Request a custom solution</button>
+              <Link className="text-link" href="/products" onClick={() => trackEvent("catalog_click", { cta_location: "hero" })}>Explore products</Link>
             </div>
             <p className="hero-note">Tell us your voltage, range and channel requirements. We reply within 2 hours.</p>
           </div>
@@ -94,7 +96,15 @@ export function HomeClient({ products, categories, brand }) {
           </div>
           <div className="product-grid">
             {families.map((product, index) => (
-              <button className={activeProduct === index ? "product-card active" : "product-card"} key={`${product.name}-${index}`} type="button" onClick={() => setActiveProduct(index)}>
+              <button
+                className={activeProduct === index ? "product-card active" : "product-card"}
+                key={`${product.name}-${index}`}
+                type="button"
+                onClick={() => {
+                  trackEvent("product_family_select", { product_name: product.name });
+                  setActiveProduct(index);
+                }}
+              >
                 <span className="product-index">0{index + 1}</span>
                 <span className="product-image-wrap"><img src={product.image} alt="" /></span>
                 <strong>{product.name}</strong>
@@ -106,7 +116,12 @@ export function HomeClient({ products, categories, brand }) {
           <div className="selected-product">
             <div><span>Selected family</span><strong>{families[activeProduct].name}</strong></div>
             <p>{families[activeProduct].description}</p>
-            <Link href={`/products/${families[activeProduct].slug}`}>View product</Link>
+            <Link
+              href={`/products/${families[activeProduct].slug}`}
+              onClick={() => trackEvent("view_product_click", { product_name: families[activeProduct].name })}
+            >
+              View product
+            </Link>
           </div>
         </section>
 
@@ -115,7 +130,7 @@ export function HomeClient({ products, categories, brand }) {
             <p className="eyebrow light">APPLICATION-LED ENGINEERING</p>
             <h2>Built for the real conditions behind every button press.</h2>
             <p>Share the device, environment and control logic. We match the transmitter, receiver and coding method around the application.</p>
-            <button className="signal-button" type="button" onClick={openInquiry}>Discuss your application</button>
+            <button className="signal-button" type="button" onClick={() => openInquiry("applications")}>Discuss your application</button>
           </div>
           <div className="application-list">
             {applications.map(([title, detail], index) => <div className="application-row" key={title}><span>0{index + 1}</span><strong>{title}</strong><p>{detail}</p></div>)}
@@ -140,7 +155,7 @@ export function HomeClient({ products, categories, brand }) {
 
         <section className="about-section" id="about">
           <div><p className="eyebrow light">ANQING · CHINA</p><h2>A responsive RF control partner for teams building real products.</h2></div>
-          <div><p>ANRIVERS combines 15 years of RF product experience with a practical, buyer-friendly process. Our products serve customers across North America, Europe, Australia, Japan, South Korea and Africa.</p><button className="light-button" type="button" onClick={openInquiry}>Work with ANRIVERS</button></div>
+          <div><p>ANRIVERS combines 15 years of RF product experience with a practical, buyer-friendly process. Our products serve customers across North America, Europe, Australia, Japan, South Korea and Africa.</p><button className="light-button" type="button" onClick={() => openInquiry("about")}>Work with ANRIVERS</button></div>
         </section>
       </main>
 

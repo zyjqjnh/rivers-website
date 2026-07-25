@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useId, useRef } from "react";
 import { createInquiryAction } from "@/app/inquiries/actions";
+import { trackEvent } from "@/lib/analytics";
 
 export function InquiryModal({
   open,
@@ -52,6 +53,14 @@ function InquiryForm({ onClose, productName, productUrl, titleId }) {
   const defaultMessage = productName
     ? `I would like a quote for ${productName}.\nProduct: ${productUrl}\n\nApplication, quantity and other requirements:`
     : "";
+
+  useEffect(() => {
+    if (!state.success) return;
+    trackEvent("generate_lead", {
+      inquiry_type: productName ? "product" : "general",
+      product_name: productName,
+    });
+  }, [productName, state.success]);
 
   if (state.success) {
     return (
