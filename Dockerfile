@@ -13,7 +13,9 @@ RUN npm ci
 
 FROM base AS builder
 
+ARG NEXT_PUBLIC_GA_MEASUREMENT_ID
 ENV STANDALONE_BUILD=1
+ENV NEXT_PUBLIC_GA_MEASUREMENT_ID=$NEXT_PUBLIC_GA_MEASUREMENT_ID
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 RUN npx prisma generate
