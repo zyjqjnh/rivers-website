@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Boxes, ExternalLink, FolderTree, Inbox, LogOut, MessageCircle, RadioTower, Settings } from "lucide-react";
+import { BookOpenText, Boxes, ExternalLink, FolderTree, Inbox, LogOut, MessageCircle, RadioTower, Settings } from "lucide-react";
 import { logoutAction } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 const navigation = [
   { href: "/admin/products", label: "Products", icon: Boxes },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
+  { href: "/admin/knowledge", label: "Knowledge", icon: BookOpenText },
   { href: "/admin/inquiries", label: "Inquiries", icon: Inbox },
   { href: "/admin/whatsapp", label: "WhatsApp", icon: MessageCircle },
   { href: "/admin/site-settings", label: "Site settings", icon: Settings },

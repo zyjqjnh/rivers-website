@@ -20,13 +20,13 @@ function pageHref(pathname, page) {
   return page === 1 ? pathname : `${pathname}?page=${page}`;
 }
 
-export function CataloguePagination({ currentPage, pathname, totalPages }) {
+export function CataloguePagination({ ariaLabel = "Product catalogue pagination", currentPage, pathname, totalPages }) {
   if (totalPages <= 1) return null;
 
   const visiblePages = getVisiblePages(currentPage, totalPages);
 
   return (
-    <nav className="catalogue-pagination" aria-label="Product catalogue pagination">
+    <nav className="catalogue-pagination" aria-label={ariaLabel}>
       <Link
         className={`catalogue-pagination-direction${currentPage === 1 ? " disabled" : ""}`}
         href={pageHref(pathname, Math.max(1, currentPage - 1))}

@@ -10,6 +10,7 @@ export async function SiteHeader({ categories = [] }) {
       <BrandLogo brand={brand} />
       <nav className="simple-nav">
         <ProductsNavMenu categories={categories} />
+        <Link href="/knowledge">Knowledge</Link>
         <Link href="/#capabilities">Capabilities</Link>
       </nav>
     </header>

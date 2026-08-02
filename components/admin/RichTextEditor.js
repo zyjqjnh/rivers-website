@@ -61,7 +61,7 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-export function RichTextEditor({ name, defaultValue = "" }) {
+export function RichTextEditor({ name, defaultValue = "", ariaLabel = "Full description" }) {
   const editor = useEditor({
     extensions,
     content: initialHtml(defaultValue),
@@ -69,7 +69,7 @@ export function RichTextEditor({ name, defaultValue = "" }) {
     editorProps: {
       attributes: {
         class: "rich-text-editor-content",
-        "aria-label": "Full description",
+        "aria-label": ariaLabel,
       },
     },
   });

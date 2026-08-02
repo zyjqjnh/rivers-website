@@ -53,6 +53,7 @@ export function HomeClient({ products, categories, brand }) {
         <button className="menu-button" type="button" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close" : "Menu"}</button>
         <nav className={menuOpen ? "nav open" : "nav"} aria-label="Main navigation">
           <ProductsNavMenu categories={categories} onNavigate={() => setMenuOpen(false)} />
+          <Link href="/knowledge" onClick={() => setMenuOpen(false)}>Knowledge</Link>
           <Link href="#applications" onClick={() => setMenuOpen(false)}>Applications</Link>
           <Link href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</Link>
           <Link href="#about" onClick={() => setMenuOpen(false)}>About</Link>
@@ -161,7 +162,7 @@ export function HomeClient({ products, categories, brand }) {
 
       <footer>
         <BrandLogo brand={brand} href="#top" className="footer-brand" theme="dark" />
-        <p>RF remote controls, receivers, modules and sensors.</p>
+        <p>RF remote controls, receivers, modules and <Link href="/knowledge">technical guidance</Link>.</p>
         <p>© 2026 Anqing Rivers Electronic Technology Co., Ltd.</p>
       </footer>
 

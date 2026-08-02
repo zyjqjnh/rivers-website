@@ -9,25 +9,25 @@ function getVisiblePages(currentPage, totalPages) {
     .sort((a, b) => a - b);
 }
 
-function pageHref(page, filters) {
+function pageHref(page, filters, basePath) {
   const params = new URLSearchParams();
   if (filters.query) params.set("q", filters.query);
-  if (filters.categoryId) params.set("category", filters.categoryId);
+  if (filters.categoryId || filters.category) params.set("category", filters.categoryId || filters.category);
   if (filters.status) params.set("status", filters.status);
   if (page > 1) params.set("page", String(page));
   const queryString = params.toString();
-  return queryString ? `/admin/products?${queryString}` : "/admin/products";
+  return queryString ? `${basePath}?${queryString}` : basePath;
 }
 
-export function AdminProductPagination({ currentPage, filters, totalPages }) {
+export function AdminProductPagination({ ariaLabel = "Product list pagination", basePath = "/admin/products", currentPage, filters, totalPages }) {
   if (totalPages <= 1) return null;
   const visiblePages = getVisiblePages(currentPage, totalPages);
 
   return (
-    <nav className="flex flex-wrap items-center justify-between gap-3 border-t px-4 py-4" aria-label="Product list pagination">
+    <nav className="flex flex-wrap items-center justify-between gap-3 border-t px-4 py-4" aria-label={ariaLabel}>
       <Button variant="outline" size="sm" asChild={currentPage > 1} disabled={currentPage === 1}>
         {currentPage > 1
-          ? <Link href={pageHref(currentPage - 1, filters)}><ChevronLeft />Previous</Link>
+          ? <Link href={pageHref(currentPage - 1, filters, basePath)}><ChevronLeft />Previous</Link>
           : <span><ChevronLeft />Previous</span>}
       </Button>
       <div className="flex items-center gap-1">
@@ -43,7 +43,7 @@ export function AdminProductPagination({ currentPage, filters, totalPages }) {
                 asChild={page !== currentPage}
                 aria-current={page === currentPage ? "page" : undefined}
               >
-                {page === currentPage ? <span>{page}</span> : <Link href={pageHref(page, filters)}>{page}</Link>}
+                {page === currentPage ? <span>{page}</span> : <Link href={pageHref(page, filters, basePath)}>{page}</Link>}
               </Button>
             </span>
           );
@@ -51,7 +51,7 @@ export function AdminProductPagination({ currentPage, filters, totalPages }) {
       </div>
       <Button variant="outline" size="sm" asChild={currentPage < totalPages} disabled={currentPage === totalPages}>
         {currentPage < totalPages
-          ? <Link href={pageHref(currentPage + 1, filters)}>Next<ChevronRight /></Link>
+          ? <Link href={pageHref(currentPage + 1, filters, basePath)}>Next<ChevronRight /></Link>
           : <span>Next<ChevronRight /></span>}
       </Button>
     </nav>

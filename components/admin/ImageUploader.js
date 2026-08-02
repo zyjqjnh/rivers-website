@@ -8,14 +8,20 @@ import { Textarea } from "@/components/ui/textarea";
 const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-export function ImageUploader({ initialUrls = [], storageReady }) {
+export function ImageUploader({
+  initialUrls = [],
+  storageReady,
+  inputName = "imageUrls",
+  multiple = true,
+  emptyLabel = "暂无产品图片",
+}) {
   const [urls, setUrls] = useState(initialUrls);
   const [uploading, setUploading] = useState([]);
   const [error, setError] = useState("");
   const inputRef = useRef(null);
 
   async function uploadFiles(files) {
-    const selectedFiles = Array.from(files);
+    const selectedFiles = multiple ? Array.from(files) : Array.from(files).slice(0, 1);
     if (!selectedFiles.length) return;
 
     setError("");
@@ -51,7 +57,7 @@ export function ImageUploader({ initialUrls = [], storageReady }) {
           });
           if (!uploadResponse.ok) throw new Error("R2 上传失败，请检查存储桶 CORS 设置。");
 
-          setUrls((current) => [...current, signature.publicUrl]);
+          setUrls((current) => multiple ? [...current, signature.publicUrl] : [signature.publicUrl]);
         } catch (uploadError) {
           setError(uploadError.message || "图片上传失败，请重试。");
         } finally {
@@ -88,7 +94,7 @@ export function ImageUploader({ initialUrls = [], storageReady }) {
         className="sr-only"
         type="file"
         accept={ACCEPTED_TYPES.join(",")}
-        multiple
+        multiple={multiple}
         onChange={(event) => {
           uploadFiles(event.target.files);
           event.target.value = "";
@@ -117,9 +123,9 @@ export function ImageUploader({ initialUrls = [], storageReady }) {
                 <img src={url} alt="" className="h-full w-full object-contain" />
               </div>
               <div className="flex items-center gap-1 border-t p-2">
-                <span className="min-w-0 flex-1 truncate px-1 text-xs text-slate-500">{index === 0 ? "主图" : `图片 ${index + 1}`}</span>
-                <Button type="button" variant="ghost" size="icon" aria-label="向前移动" disabled={index === 0} onClick={() => move(index, -1)}><ArrowUp /></Button>
-                <Button type="button" variant="ghost" size="icon" aria-label="向后移动" disabled={index === urls.length - 1} onClick={() => move(index, 1)}><ArrowDown /></Button>
+                <span className="min-w-0 flex-1 truncate px-1 text-xs text-slate-500">{multiple ? (index === 0 ? "主图" : `图片 ${index + 1}`) : "封面图"}</span>
+                {multiple && <Button type="button" variant="ghost" size="icon" aria-label="向前移动" disabled={index === 0} onClick={() => move(index, -1)}><ArrowUp /></Button>}
+                {multiple && <Button type="button" variant="ghost" size="icon" aria-label="向后移动" disabled={index === urls.length - 1} onClick={() => move(index, 1)}><ArrowDown /></Button>}
                 <Button type="button" variant="ghost" size="icon" aria-label="删除图片" onClick={() => setUrls((current) => current.filter((_, itemIndex) => itemIndex !== index))}><Trash2 /></Button>
               </div>
             </div>
@@ -139,7 +145,7 @@ export function ImageUploader({ initialUrls = [], storageReady }) {
 
       {urls.length === 0 && uploading.length === 0 && (
         <div className="flex items-center gap-2 rounded-md border bg-white px-4 py-3 text-xs text-slate-500">
-          <ImagePlus className="h-4 w-4" /> 暂无产品图片
+          <ImagePlus className="h-4 w-4" /> {emptyLabel}
         </div>
       )}
 
@@ -149,7 +155,7 @@ export function ImageUploader({ initialUrls = [], storageReady }) {
         <summary className="cursor-pointer text-sm font-medium text-slate-700">手动编辑图片 URL</summary>
         <div className="pt-3">
           <Textarea
-            name="imageUrls"
+            name={inputName}
             value={urls.join("\n")}
             onChange={(event) => updateFromText(event.target.value)}
             placeholder={"/assets/product.jpg\nhttps://images.example.com/product-side.jpg"}

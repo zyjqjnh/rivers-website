@@ -32,6 +32,23 @@ const categorySchema = z.object({
   sortOrder: z.coerce.number().int().min(0).max(100000),
 });
 
+const knowledgeArticleSchema = z.object({
+  title: z.string().trim().min(5).max(180),
+  slug: z.string().trim().min(2).max(160).regex(/^[a-z0-9-]+$/),
+  excerpt: z.string().trim().min(20).max(600),
+  content: z.string().trim().min(20),
+  category: z.enum(["RF_FUNDAMENTALS", "SELECTION_GUIDES", "ENGINEERING_TROUBLESHOOTING", "APPLICATION_GUIDES"]),
+  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
+  featured: z.boolean(),
+  authorName: z.string().trim().min(2).max(120),
+  reviewerName: z.string().trim().max(120).optional(),
+  coverImageUrl: z.string().trim().max(2048).optional(),
+  coverImageAlt: z.string().trim().max(240).optional(),
+  seoTitle: z.string().trim().max(120).optional(),
+  seoDescription: z.string().trim().max(320).optional(),
+  relatedProductIds: z.array(z.string().min(1)).max(30),
+});
+
 const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email(),
   password: z.string().min(1),
@@ -104,6 +121,35 @@ function categoryData(formData) {
     seoDescription: formData.get("seoDescription"),
     sortOrder: formData.get("sortOrder"),
   });
+}
+
+function knowledgeArticleData(formData) {
+  const coverImageUrl = String(formData.get("coverImageUrls") || "")
+    .split("\n")
+    .map((value) => value.trim())
+    .find(Boolean) || "";
+  return knowledgeArticleSchema.parse({
+    title: formData.get("title"),
+    slug: formData.get("slug"),
+    excerpt: formData.get("excerpt"),
+    content: formData.get("content"),
+    category: formData.get("category"),
+    status: formData.get("status"),
+    featured: formData.get("featured") === "on",
+    authorName: formData.get("authorName"),
+    reviewerName: formData.get("reviewerName"),
+    coverImageUrl,
+    coverImageAlt: formData.get("coverImageAlt"),
+    seoTitle: formData.get("seoTitle"),
+    seoDescription: formData.get("seoDescription"),
+    relatedProductIds: [...new Set(formData.getAll("relatedProductIds").map(String))],
+  });
+}
+
+function estimateReadingMinutes(html) {
+  const text = String(html || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  if (!text) return 1;
+  return Math.max(1, Math.ceil(text.split(" ").length / 220));
 }
 
 function isUniqueConstraintError(error) {
@@ -408,4 +454,113 @@ export async function saveWhatsAppSettingsAction(formData) {
 
   revalidatePath("/products", "layout");
   redirect("/admin/whatsapp?saved=1");
+}
+
+export async function createKnowledgeArticleAction(formData) {
+  await requireAdmin();
+  requireDatabase();
+  let input;
+  try {
+    input = knowledgeArticleData(formData);
+  } catch {
+    redirect("/admin/knowledge/new?error=validation");
+  }
+  const content = sanitizeRichText(input.content);
+  let article;
+  try {
+    article = await prisma.knowledgeArticle.create({
+      data: {
+        title: input.title,
+        slug: input.slug,
+        excerpt: input.excerpt,
+        content,
+        category: input.category,
+        status: input.status,
+        featured: input.featured,
+        authorName: input.authorName,
+        reviewerName: normalizeOptional(input.reviewerName),
+        coverImageUrl: normalizeOptional(input.coverImageUrl),
+        coverImageAlt: normalizeOptional(input.coverImageAlt),
+        seoTitle: normalizeOptional(input.seoTitle),
+        seoDescription: normalizeOptional(input.seoDescription),
+        readingMinutes: estimateReadingMinutes(content),
+        publishedAt: input.status === "PUBLISHED" ? new Date() : null,
+        relatedProducts: {
+          create: input.relatedProductIds.map((productId) => ({ productId })),
+        },
+      },
+    });
+  } catch (error) {
+    if (isUniqueConstraintError(error)) redirect("/admin/knowledge/new?error=slug");
+    throw error;
+  }
+
+  revalidatePath("/knowledge", "layout");
+  revalidatePath("/sitemap.xml");
+  redirect(`/admin/knowledge/${article.id}/edit?created=1`);
+}
+
+export async function updateKnowledgeArticleAction(id, formData) {
+  await requireAdmin();
+  requireDatabase();
+  let input;
+  try {
+    input = knowledgeArticleData(formData);
+  } catch {
+    redirect(`/admin/knowledge/${id}/edit?error=validation`);
+  }
+  const content = sanitizeRichText(input.content);
+
+  let previous;
+  try {
+    previous = await prisma.knowledgeArticle.findUnique({ where: { id }, select: { slug: true, publishedAt: true } });
+    if (!previous) redirect("/admin/knowledge?error=not-found");
+    await prisma.$transaction(async (tx) => {
+      await tx.knowledgeArticleProduct.deleteMany({ where: { articleId: id } });
+      await tx.knowledgeArticle.update({
+        where: { id },
+        data: {
+          title: input.title,
+          slug: input.slug,
+          excerpt: input.excerpt,
+          content,
+          category: input.category,
+          status: input.status,
+          featured: input.featured,
+          authorName: input.authorName,
+          reviewerName: normalizeOptional(input.reviewerName),
+          coverImageUrl: normalizeOptional(input.coverImageUrl),
+          coverImageAlt: normalizeOptional(input.coverImageAlt),
+          seoTitle: normalizeOptional(input.seoTitle),
+          seoDescription: normalizeOptional(input.seoDescription),
+          readingMinutes: estimateReadingMinutes(content),
+          publishedAt: input.status === "PUBLISHED" ? (previous.publishedAt || new Date()) : null,
+          relatedProducts: {
+            create: input.relatedProductIds.map((productId) => ({ productId })),
+          },
+        },
+      });
+    });
+  } catch (error) {
+    if (isUniqueConstraintError(error)) redirect(`/admin/knowledge/${id}/edit?error=slug`);
+    throw error;
+  }
+
+  revalidatePath("/knowledge", "layout");
+  revalidatePath(`/knowledge/${previous.slug}`);
+  revalidatePath(`/knowledge/${input.slug}`);
+  revalidatePath("/sitemap.xml");
+  redirect(`/admin/knowledge/${id}/edit?saved=1`);
+}
+
+export async function deleteKnowledgeArticleAction(id) {
+  await requireAdmin();
+  requireDatabase();
+  const article = await prisma.knowledgeArticle.findUnique({ where: { id }, select: { slug: true } });
+  if (!article) redirect("/admin/knowledge?error=not-found");
+  await prisma.knowledgeArticle.delete({ where: { id } });
+  revalidatePath("/knowledge", "layout");
+  revalidatePath(`/knowledge/${article.slug}`);
+  revalidatePath("/sitemap.xml");
+  redirect("/admin/knowledge?deleted=1");
 }
