@@ -41,3 +41,4 @@ When implementing from a selected generated mock, treat that image as the source
 - Use the selected ANRIVERS “River A” icon direction for the brand identity: a geometric navy `A` combined with a green flowing signal/river path and terminal node. Keep the mark flat, using only `#071B33` and `#53E39A`.
 - On dark surfaces such as the public footer, use the reversed River A icon with a white main shape and the original signal-green accent so the full mark remains visible.
 - Use Google Analytics 4 as the first website analytics integration. Track public traffic and meaningful CTA/product interactions only after analytics consent, exclude admin routes, and never send inquiry form contents or contact details to Google.
+- Keep public Knowledge article titles compact on desktop, capped around 72px with comfortable line height so long technical titles do not dominate the page; preserve the separate mobile title sizing.

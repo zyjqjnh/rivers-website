@@ -321,7 +321,7 @@ textarea { min-height: 118px; resize: vertical; }
 .knowledge-article-main { padding: 58px 5.5vw 110px; }
 .knowledge-article-header { max-width: 980px; margin: 0 auto; padding: 36px 0 58px; text-align: center; }
 .knowledge-article-header .eyebrow { margin-bottom: 20px; }
-.knowledge-article-header h1 { max-width: none; font-size: clamp(50px, 6vw, 84px); line-height: 1; }
+.knowledge-article-header h1 { max-width: none; font-size: clamp(46px, 4.8vw, 72px); line-height: 1.02; }
 .knowledge-article-excerpt { max-width: 800px; margin: 28px auto 0; color: #586b79; font-size: 19px; line-height: 1.75; }
 .knowledge-article-byline { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 9px 20px; margin-top: 30px; color: #74828d; font-size: 12px; }
 .knowledge-article-byline span, .knowledge-article-byline time { display: inline-flex; align-items: center; gap: 6px; }
