@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -18,7 +19,11 @@ import {
   Strikethrough,
   Underline as UnderlineIcon,
   Undo2,
+  X,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const extensions = [
   StarterKit.configure({
@@ -62,6 +67,10 @@ function escapeHtml(value) {
 }
 
 export function RichTextEditor({ name, defaultValue = "", ariaLabel = "Full description" }) {
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageAlt, setImageAlt] = useState("");
+  const [imageError, setImageError] = useState("");
   const editor = useEditor({
     extensions,
     content: initialHtml(defaultValue),
@@ -102,13 +111,30 @@ export function RichTextEditor({ name, defaultValue = "", ariaLabel = "Full desc
     editor.chain().focus().extendMarkRange("link").setLink({ href: url.trim() }).run();
   }, [editor]);
 
-  const addImage = useCallback(() => {
+  const openImageDialog = useCallback(() => {
     if (!editor) return;
-    const url = window.prompt("Paste a public image URL (for example, an R2 URL)");
-    if (!url?.trim()) return;
-    const alt = window.prompt("Image description (optional)") || "";
-    editor.chain().focus().setImage({ src: url.trim(), alt: alt.trim() }).run();
+    setImageUrl("");
+    setImageAlt("");
+    setImageError("");
+    setImageDialogOpen(true);
   }, [editor]);
+
+  const addImage = useCallback((event) => {
+    event.preventDefault();
+    if (!editor) return;
+
+    const url = imageUrl.trim();
+    try {
+      const parsedUrl = new URL(url);
+      if (!["http:", "https:"].includes(parsedUrl.protocol)) throw new Error("Unsupported protocol");
+    } catch {
+      setImageError("Enter a valid public image URL beginning with http:// or https://.");
+      return;
+    }
+
+    editor.chain().focus().setImage({ src: url, alt: imageAlt.trim() }).run();
+    setImageDialogOpen(false);
+  }, [editor, imageAlt, imageUrl]);
 
   return (
     <div className="rich-text-editor">
@@ -139,7 +165,7 @@ export function RichTextEditor({ name, defaultValue = "", ariaLabel = "Full desc
         <ToolbarButton label="Link" active={editor?.isActive("link")} onClick={setLink}>
           <LinkIcon />
         </ToolbarButton>
-        <ToolbarButton label="Image from URL" onClick={addImage}>
+        <ToolbarButton label="Image from URL" onClick={openImageDialog}>
           <ImagePlus />
         </ToolbarButton>
         <span className="rich-text-toolbar-divider" />
@@ -152,6 +178,64 @@ export function RichTextEditor({ name, defaultValue = "", ariaLabel = "Full desc
       </div>
       <EditorContent editor={editor} />
       <p className="rich-text-editor-help">Use the image button to insert a public image URL, including files hosted on Cloudflare R2.</p>
+      <Dialog.Root open={imageDialogOpen} onOpenChange={setImageDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="rich-text-image-dialog-overlay" />
+          <Dialog.Content className="rich-text-image-dialog" aria-describedby="rich-text-image-dialog-description">
+            <div className="rich-text-image-dialog-header">
+              <div>
+                <Dialog.Title>Insert image</Dialog.Title>
+                <Dialog.Description id="rich-text-image-dialog-description">
+                  Add a publicly accessible image URL, including a Cloudflare R2 URL.
+                </Dialog.Description>
+              </div>
+              <Dialog.Close className="rich-text-image-dialog-close" aria-label="Close image dialog">
+                <X />
+              </Dialog.Close>
+            </div>
+
+            <form onSubmit={addImage}>
+              <div className="rich-text-image-dialog-field">
+                <Label htmlFor={`${name}-image-url`}>Image URL</Label>
+                <Input
+                  id={`${name}-image-url`}
+                  type="text"
+                  inputMode="url"
+                  placeholder="https://example.com/image.jpg"
+                  value={imageUrl}
+                  aria-invalid={Boolean(imageError)}
+                  aria-describedby={imageError ? `${name}-image-url-error` : undefined}
+                  onChange={(event) => {
+                    setImageUrl(event.target.value);
+                    if (imageError) setImageError("");
+                  }}
+                  autoFocus
+                  required
+                />
+                {imageError && <p id={`${name}-image-url-error`} className="rich-text-image-dialog-error" role="alert">{imageError}</p>}
+              </div>
+
+              <div className="rich-text-image-dialog-field">
+                <Label htmlFor={`${name}-image-alt`}>Image description <span>(optional)</span></Label>
+                <Input
+                  id={`${name}-image-alt`}
+                  value={imageAlt}
+                  placeholder="Describe the image for screen readers"
+                  onChange={(event) => setImageAlt(event.target.value)}
+                />
+                <p className="rich-text-image-dialog-hint">Leave blank only when the image is purely decorative.</p>
+              </div>
+
+              <div className="rich-text-image-dialog-actions">
+                <Dialog.Close asChild>
+                  <Button type="button" variant="outline">Cancel</Button>
+                </Dialog.Close>
+                <Button type="submit">Insert image</Button>
+              </div>
+            </form>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </div>
   );
 }
