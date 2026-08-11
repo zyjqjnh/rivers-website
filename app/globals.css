@@ -296,11 +296,11 @@ textarea { min-height: 118px; resize: vertical; }
 .knowledge-card { min-width: 0; border: 1px solid var(--line); background: white; transition: transform 180ms ease, box-shadow 180ms ease; }
 .knowledge-card:hover { transform: translateY(-5px); box-shadow: 0 20px 44px rgba(7,27,51,.09); }
 .knowledge-card-visual {
-  min-height: 240px; display: grid; place-items: end start; overflow: hidden; padding: 22px;
+  position: relative; height: 240px; display: grid; place-items: end start; overflow: hidden; padding: 22px; box-sizing: border-box;
   background-color: #0c2b46; background-image: linear-gradient(rgba(83,227,154,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(83,227,154,.1) 1px, transparent 1px);
   background-size: 32px 32px; color: var(--green); text-decoration: none;
 }
-.knowledge-card-visual img { width: calc(100% + 44px); height: 284px; display: block; margin: -22px; object-fit: cover; }
+.knowledge-card-visual img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
 .knowledge-card-visual span { max-width: 230px; font-family: "Manrope", sans-serif; font-size: 28px; font-weight: 600; line-height: 1.08; letter-spacing: -.035em; }
 .knowledge-card-body { padding: 26px; }
 .knowledge-card-meta, .knowledge-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
@@ -739,7 +739,7 @@ textarea { min-height: 118px; resize: vertical; }
   .knowledge-category-nav { flex-wrap: nowrap; margin-right: -20px; margin-bottom: 30px; padding-right: 20px; overflow-x: auto; }
   .knowledge-category-nav a { flex: 0 0 auto; }
   .knowledge-grid { grid-template-columns: 1fr; }
-  .knowledge-card-visual { min-height: 220px; }
+  .knowledge-card-visual { height: 220px; }
   .knowledge-card-body > p { min-height: 0; }
   .knowledge-empty { padding: 48px 22px; }
   .knowledge-article-main { padding: 36px 20px 88px; }
