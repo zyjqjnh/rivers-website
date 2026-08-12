@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { FileText, MessageCircle } from "lucide-react";
+import { ExternalLink, FileText, MessageCircle } from "lucide-react";
 import { InquiryModal } from "@/components/InquiryModal";
 import { trackEvent } from "@/lib/analytics";
 
-export function ProductInquiryActions({ productName, productUrl, whatsappUrl }) {
+export function ProductInquiryActions({ productName, productUrl, whatsappUrl, alibabaUrl }) {
   const [quoteOpen, setQuoteOpen] = useState(false);
 
   const actions = (className, whatsappLabel, ctaLocation) => (
@@ -39,6 +39,18 @@ export function ProductInquiryActions({ productName, productUrl, whatsappUrl }) 
   return (
     <>
       {actions("product-contact-actions product-contact-actions-inline", "Chat on WhatsApp", "product_inline")}
+      {alibabaUrl && (
+        <a
+          className="alibaba-button"
+          href={alibabaUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent("alibaba_click", { product_name: productName, cta_location: "product_inline" })}
+        >
+          View on Alibaba.com
+          <ExternalLink />
+        </a>
+      )}
       {actions("product-contact-sticky", "WhatsApp", "mobile_sticky")}
       <InquiryModal
         open={quoteOpen}

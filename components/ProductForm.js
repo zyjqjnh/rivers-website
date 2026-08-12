@@ -25,6 +25,18 @@ export function ProductForm({ action, categories, product, databaseReady, storag
             <div className="flex items-end pb-2"><label className="flex items-center gap-3 text-sm font-medium"><input className="h-4 w-4 accent-slate-950" name="featured" type="checkbox" defaultChecked={product?.featured} />Feature on homepage</label></div>
             <Field label="Short description" className="md:col-span-2"><Textarea name="shortDescription" defaultValue={product?.shortDescription || ""} required /></Field>
             <Field label="Full description" className="md:col-span-2"><RichTextEditor name="description" defaultValue={product?.description || ""} /></Field>
+            <Field
+              label="Alibaba.com product URL (optional)"
+              hint="When provided, the public product page shows a button linking to this Alibaba.com listing."
+              className="md:col-span-2"
+            >
+              <Input
+                name="alibabaUrl"
+                type="url"
+                defaultValue={product?.alibabaUrl || product?.sourceUrl || ""}
+                placeholder="https://www.alibaba.com/product-detail/..."
+              />
+            </Field>
           </CardContent>
         </Card>
 

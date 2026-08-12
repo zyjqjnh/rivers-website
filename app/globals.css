@@ -530,6 +530,9 @@ textarea { min-height: 118px; resize: vertical; }
 .whatsapp-button:hover { background: #108552; transform: translateY(-2px); }
 .quote-button:hover { background: #123755; transform: translateY(-2px); }
 .whatsapp-button svg, .quote-button svg { width: 19px; height: 19px; }
+.alibaba-button { display: flex; min-height: 46px; align-items: center; justify-content: center; gap: 9px; margin-top: 12px; border: 1px solid #c9d2d8; color: var(--navy); font-size: 14px; font-weight: 600; text-decoration: none; transition: border-color 160ms ease, background 160ms ease, transform 160ms ease; }
+.alibaba-button:hover { border-color: #8f9da7; background: #f4f7f8; transform: translateY(-2px); }
+.alibaba-button svg { width: 17px; height: 17px; }
 .admin-button-secondary { background: #e6edf1; color: var(--navy); }
 .danger-button { background: #ffe7e3; color: #a32b1d; }
 .setup-notice { margin-bottom: 28px; padding: 18px 20px; border-left: 4px solid #dca32d; background: #fff8e5; color: #6b521c; line-height: 1.6; }

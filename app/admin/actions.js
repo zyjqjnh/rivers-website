@@ -21,6 +21,17 @@ const productSchema = z.object({
   specifications: z.string().optional(),
   seoTitle: z.string().trim().optional(),
   seoDescription: z.string().trim().optional(),
+  alibabaUrl: z.string().trim().max(2048).refine((value) => {
+    if (!value) return true;
+    try {
+      const url = new URL(value);
+      const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
+      return (url.protocol === "https:" || url.protocol === "http:") &&
+        (hostname === "alibaba.com" || hostname.endsWith(".alibaba.com"));
+    } catch {
+      return false;
+    }
+  }, "Enter a valid Alibaba.com URL").optional(),
 });
 
 const categorySchema = z.object({
@@ -108,6 +119,7 @@ function productData(formData) {
     specifications: formData.get("specifications"),
     seoTitle: formData.get("seoTitle"),
     seoDescription: formData.get("seoDescription"),
+    alibabaUrl: formData.get("alibabaUrl"),
   };
   return productSchema.parse(raw);
 }
@@ -210,6 +222,7 @@ export async function createProductAction(formData) {
       featured: input.featured,
       seoTitle: normalizeOptional(input.seoTitle),
       seoDescription: normalizeOptional(input.seoDescription),
+      alibabaUrl: normalizeOptional(input.alibabaUrl),
       publishedAt: input.status === "PUBLISHED" ? new Date() : null,
       images: { create: images },
       specifications: { create: specifications },
@@ -244,6 +257,7 @@ export async function updateProductAction(id, formData) {
         featured: input.featured,
         seoTitle: normalizeOptional(input.seoTitle),
         seoDescription: normalizeOptional(input.seoDescription),
+        alibabaUrl: normalizeOptional(input.alibabaUrl),
         publishedAt: input.status === "PUBLISHED" ? new Date() : null,
         images: { create: images },
         specifications: { create: specifications },

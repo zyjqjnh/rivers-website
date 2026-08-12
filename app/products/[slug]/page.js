@@ -113,6 +113,7 @@ export default async function ProductDetailPage({ params }) {
               productName={product.name}
               productUrl={productUrl}
               whatsappUrl={whatsappUrl}
+              alibabaUrl={product.alibabaUrl}
             />
           </div>
         </div>

@@ -75,6 +75,7 @@ model Product {
   sortOrder         Int                       @default(0)
   seoTitle          String?
   seoDescription    String?
+  alibabaUrl        String?
   categoryId        String
   category          Category                  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   images            ProductImage[]

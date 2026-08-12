@@ -67,6 +67,7 @@ The site sends these business events without form contents or contact details:
 - `rfq_start`
 - `generate_lead`
 - `whatsapp_click`
+- `alibaba_click`
 - `catalog_click`
 - `category_click`
 - `product_family_select`
