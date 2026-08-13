@@ -7,7 +7,7 @@ import { ProductInquiryActions } from "@/components/ProductInquiryActions";
 import { getCategories, getProductBySlug } from "@/lib/products";
 import { renderRichText } from "@/lib/rich-text";
 import { getSiteSettings, getWhatsAppUrl } from "@/lib/site-settings";
-import { absoluteUrl, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -50,25 +50,6 @@ export default async function ProductDetailPage({ params }) {
   if (!product) notFound();
   const productUrl = absoluteUrl(`/products/${product.slug}`);
   const whatsappUrl = getWhatsAppUrl(siteSettings, product.name, productUrl);
-  const productStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description: product.seoDescription || product.shortDescription,
-    image: product.images?.map((image) => absoluteUrl(image.url)),
-    sku: product.modelNumber || undefined,
-    category: product.category?.name,
-    url: productUrl,
-    brand: {
-      "@type": "Brand",
-      name: SITE_NAME,
-    },
-    additionalProperty: product.specifications?.map((spec) => ({
-      "@type": "PropertyValue",
-      name: spec.label,
-      value: spec.value,
-    })),
-  };
   const breadcrumbStructuredData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -94,7 +75,7 @@ export default async function ProductDetailPage({ params }) {
 
   return (
     <div className="product-detail-shell">
-      <JsonLd data={[productStructuredData, breadcrumbStructuredData]} />
+      <JsonLd data={breadcrumbStructuredData} />
       <SiteHeader categories={categories} />
       <main className="product-detail-main">
         <div className="breadcrumb">
