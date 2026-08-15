@@ -1,77 +1,46 @@
-# Design QA
+# Solutions Design QA
 
-- Source visual truth: `public/brand-concepts/anrivers-icon-02-river-a-flat.png`
-- Implementation screenshots: `logo-implementation-desktop.png`, `logo-implementation-mobile.png`, `logo-implementation-footer-mobile.png`
-- Combined comparison evidence: `logo-design-qa-comparison.png`
-- Viewports: 1440 × 900 desktop and 390 × 844 mobile
-- State: public homepage with the ANRIVERS header and footer brand lockups
-
-## Full-view comparison evidence
-
-The 1440 × 900 implementation keeps the existing three-column header balance and places the selected River A mark beside the ANRIVERS wordmark without shifting the navigation or RFQ action. The 390 × 844 implementation keeps the mark and wordmark legible while leaving clear space for the mobile menu.
-
-## Focused region comparison evidence
-
-The combined comparison shows the selected navy-and-green River A source beside the rendered homepage and a focused header crop. The implementation uses the source asset directly, preserves its transparent background, and does not reconstruct the mark with CSS or inline SVG.
-
-## Required fidelity surfaces
-
-- Fonts and typography: existing Manrope/DM Sans brand hierarchy is preserved; ANRIVERS and RF CONTROL remain legible at both tested breakpoints.
-- Spacing and layout rhythm: the mark aligns optically with the two-line wordmark; desktop and mobile header heights remain unchanged.
-- Colors and visual tokens: the asset uses only navy `#071B33` and signal green `#53E39A`, matching the site tokens.
-- Image quality and asset fidelity: a 512 × 512 transparent PNG is rendered at 40px desktop and 34px mobile with no visible halo or stretching.
-- Dark-surface contrast: the footer uses a dedicated white-and-signal-green reversed asset, keeping the complete River A silhouette visible against navy.
-- Copy and content: default public brand text, metadata, Open Graph text, and the editable settings fallback now use ANRIVERS.
-- Responsiveness: navigation and mobile menu do not overlap the wider brand lockup.
-- Browser identity: generated `favicon.ico` and `icon.png` are present and linked by Next.js metadata.
+- Source visual truth: `/Users/zhuyaojie/.codex/generated_images/01a00417-3bd5-7023-9d2e-cddfd5eeb458/exec-3e764632-0bcd-4c79-b00f-d5a98d1abbf4.png`
+- Source pixels: 825 × 1906, 1× design reference
+- Browser-rendered implementation: `http://127.0.0.1:3000/solutions`
+- Desktop evidence: `/private/tmp/solutions-qa-top-normalized.jpg`, `/private/tmp/solutions-qa-featured.jpg`, `/private/tmp/solutions-qa-mosaic.jpg`, `/private/tmp/solutions-qa-bottom.jpg`
+- Mobile evidence: `/private/tmp/anrivers-solutions-mobile-top-v1.png`, `/private/tmp/anrivers-solutions-mobile-menu.png`, `/private/tmp/anrivers-solutions-mobile-rfq.png`
+- Combined comparison: `/private/tmp/anrivers-solutions-focused-comparison-v2.png`
+- Desktop CSS viewport: 1440 × 1100 at DPR 1; browser content captures are 1425 px wide where the vertical scrollbar is present.
+- Mobile CSS viewport: 390 × 844; browser content capture is 375 × 812 after browser UI and scrollbar allocation.
+- State: public Solutions overview, default light theme, no authentication.
 
 ## Findings
 
-No actionable P0, P1, or P2 findings remain.
+No actionable P0, P1 or P2 differences remain.
 
-## Patches made
+- Fonts and typography: Manrope and DM Sans match the existing ANRIVERS design system and the selected mock's geometric display/body relationship. The desktop hero was corrected to the mock's four-line hierarchy; mobile retains a separate compact scale with no clipping or horizontal overflow.
+- Spacing and layout rhythm: The header, split hero, three-part featured solution, four-part proof row, editorial application mosaic, industry strip and dark RFQ close preserve the reference hierarchy. Desktop and mobile use square corners and consistent section edges.
+- Colors and visual tokens: The implementation consistently uses the project navy `#071B33`, signal green `#53E39A`, white/light-gray surfaces and restrained engineering grids. Text and controls maintain readable contrast.
+- Image quality and asset fidelity: Generated field scenes share the selected industrial editorial direction. Prominent product panels use the website's actual remote, receiver, module and sensor images. The hero intentionally omits an invented handheld remote so no fictional product is presented; the exact products appear immediately in the featured solution.
+- Copy and content: Required solution names, technical proof points, industries and the text-only RFQ close match the approved direction. Application links route to relevant product categories.
 
-- Added a shared `BrandLogo` component for the homepage, catalogue/detail header, footer, and 404 page.
-- Added the selected River A image as the public brand asset.
-- Added favicon and application icon assets.
-- Updated default brand settings, SEO metadata, and the database default/migration from RIVERS to ANRIVERS.
-- Verified a successful production build and desktop/mobile browser rendering.
-- Added and browser-verified a dedicated reversed icon after the original navy mark lacked contrast in the dark footer.
+## Comparison History
 
-## Follow-up polish
+1. Initial desktop pass found a P2 hero hierarchy mismatch: the headline wrapped to six lines and visually dominated the left column more than the mock.
+2. The hero grid was widened and the display scale reduced. The first correction reached five lines.
+3. A second correction capped the desktop title at 62 px. Post-fix evidence in `/private/tmp/solutions-qa-top-final-v3.jpg` shows the intended four-line structure with balanced copy and image columns.
+4. The first hero scene showed a generated approximation of the remote. In response to the explicit product-fidelity requirement, the visible generated controller was removed and real website product photography was used in the featured product panel. Post-fix evidence is `/private/tmp/solutions-qa-top-normalized.jpg` plus `/private/tmp/solutions-qa-featured.jpg`.
 
-- [P3] A vector master could be commissioned later for very large-format print and manufacturing artwork; the website asset is crisp at its intended sizes.
+## Interaction and Runtime Checks
 
-final result: passed
+- Mobile menu opened and closed successfully, including product categories and the Solutions entry.
+- The footer `Start an RFQ` action opened the existing accessible inquiry dialog; Escape/Close behavior was exercised.
+- Product navigation resolves to `/products`; the Gate & Access solution resolves to `/products/category/remote-controllers`.
+- Browser console errors checked: none.
+- Production build: passed. The local PostgreSQL service was unavailable during build-time data reads, and the app correctly used its existing demo-data fallbacks.
 
----
+## Focused Evidence
 
-# Admin product search icon alignment QA
+Focused region comparison was necessary because important product fidelity, application imagery, icon treatment and RFQ layout are too small to judge in a single full-page image. The combined comparison includes the source visual and browser-rendered hero, featured product, application mosaic and bottom regions.
 
-- Source visual truth path: `/tmp/rivers-ui-qa/source-target.png`
-- Implementation screenshot path: `/tmp/rivers-ui-qa/implementation-full.png`
-- Full-view comparison evidence: `/tmp/rivers-ui-qa/full-comparison.png`
-- Focused region comparison evidence: `/tmp/rivers-ui-qa/focus-comparison.png`
-- Viewport: 1048 × 460
-- State: authenticated admin product catalogue with the default search, category, and status filters
+## Follow-up Polish
 
-## Findings
-
-No actionable P0, P1, or P2 findings remain. The source search icon was centered against a 58px stretched grid item, placing its center 9px below the 40px input center. The implementation constrains the icon wrapper to 40px, and measured icon/input centers now match exactly.
-
-## Required fidelity surfaces
-
-- Fonts and typography: unchanged.
-- Spacing and layout rhythm: the search input, filter columns, card, and table retain their existing dimensions; only the icon positioning context changed.
-- Colors and visual tokens: unchanged.
-- Image quality and asset fidelity: the existing Lucide search icon remains unchanged and renders sharply.
-- Copy and content: unchanged.
-- Interaction and responsiveness: form controls and URL-based filtering remain intact; the fixed 40px wrapper matches the input height at all breakpoints.
-
-## Patches made since the previous QA pass
-
-- Added `h-10` to the relative search-icon wrapper.
-- Recorded the alignment rule in `AGENTS.md`.
-- Ran a successful production build.
+- P3: Replace legacy marketplace-watermarked product photos after higher-resolution clean source photography is uploaded through the existing product admin.
 
 final result: passed

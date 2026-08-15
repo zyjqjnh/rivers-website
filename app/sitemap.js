@@ -31,6 +31,12 @@ export default async function sitemap() {
       changeFrequency: "weekly",
       priority: 0.9,
     },
+    {
+      url: `${SITE_URL}/solutions`,
+      lastModified: latestContentUpdate,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     ...KNOWLEDGE_CATEGORIES.map((category) => ({
       url: `${SITE_URL}/knowledge/category/${category.slug}`,
       lastModified: articles

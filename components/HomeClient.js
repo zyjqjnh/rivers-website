@@ -54,7 +54,7 @@ export function HomeClient({ products, categories, brand }) {
         <nav className={menuOpen ? "nav open" : "nav"} aria-label="Main navigation">
           <ProductsNavMenu categories={categories} onNavigate={() => setMenuOpen(false)} />
           <Link href="/knowledge" onClick={() => setMenuOpen(false)}>Knowledge</Link>
-          <Link href="#applications" onClick={() => setMenuOpen(false)}>Applications</Link>
+          <Link href="/solutions" onClick={() => setMenuOpen(false)}>Solutions</Link>
           <Link href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</Link>
           <Link href="#about" onClick={() => setMenuOpen(false)}>About</Link>
         </nav>
