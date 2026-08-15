@@ -43,3 +43,4 @@ When implementing from a selected generated mock, treat that image as the source
 - Use Google Analytics 4 as the first website analytics integration. Track public traffic and meaningful CTA/product interactions only after analytics consent, exclude admin routes, and never send inquiry form contents or contact details to Google.
 - Keep public Knowledge article titles compact on desktop, capped around 72px with comfortable line height so long technical titles do not dominate the page; preserve the separate mobile title sizing.
 - Keep Knowledge card media areas the same fixed height whether a card has a cover image or the category fallback; crop cover images within that area regardless of their source dimensions.
+- Public Knowledge index and category pages must show at most 6 articles per page, with URL-based pagination for additional articles.

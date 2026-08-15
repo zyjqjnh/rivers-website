@@ -16,7 +16,7 @@ export const metadata = {
 };
 
 export const dynamic = "force-dynamic";
-const ARTICLES_PER_PAGE = 9;
+const ARTICLES_PER_PAGE = 6;
 
 export default async function KnowledgePage({ searchParams }) {
   const params = await searchParams;

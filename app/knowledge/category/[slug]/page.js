@@ -5,7 +5,7 @@ import { getKnowledgeArticles, getKnowledgeCategoryBySlug } from "@/lib/knowledg
 import { getCategories } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
-const ARTICLES_PER_PAGE = 9;
+const ARTICLES_PER_PAGE = 6;
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
