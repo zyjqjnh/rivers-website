@@ -45,3 +45,4 @@ When implementing from a selected generated mock, treat that image as the source
 - Keep Knowledge card media areas the same fixed height whether a card has a cover image or the category fallback; crop cover images within that area regardless of their source dimensions.
 - Public Knowledge index and category pages must show at most 6 articles per page, with URL-based pagination for additional articles.
 - Organize the public Solutions module primarily by equipment and application scenario, with industries as secondary context. Use the selected field-application visual direction, prefer real website product photography for remote controls, and keep the final RFQ section text-only on the original deep navy surface.
+- Position the public homepage around “custom RF control solutions” and the applications those solutions support. Avoid “manufacturer” positioning in prominent metadata and homepage copy; preserve the concise ANRIVERS brand voice and avoid keyword stuffing.

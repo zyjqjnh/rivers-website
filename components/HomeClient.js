@@ -64,9 +64,9 @@ export function HomeClient({ products, categories, brand }) {
       <main id="top">
         <section className="hero">
           <div className="hero-copy">
-            <p className="eyebrow">RF CONTROL SOLUTIONS · BUILT TO SPEC</p>
-            <h1>Wireless control,<br />engineered to fit.</h1>
-            <p className="hero-description">RF remote controls, receivers and modules for access control, motors, lighting and smart devices.</p>
+            <p className="eyebrow">CUSTOM RF CONTROL SOLUTIONS · BUILT TO SPEC</p>
+            <h1>RF solutions,<br />built to fit.</h1>
+            <p className="hero-description">Custom RF control solutions for OEM and industrial buyers—from handheld transmitters and relay receivers to modules engineered around your voltage, range, channels and application.</p>
             <div className="hero-actions">
               <button className="primary-button" type="button" onClick={() => openInquiry("hero")}>Request a custom solution</button>
               <Link className="text-link" href="/products" onClick={() => trackEvent("catalog_click", { cta_location: "hero" })}>Explore products</Link>
@@ -140,8 +140,8 @@ export function HomeClient({ products, categories, brand }) {
 
         <section className="section capability-section" id="capabilities">
           <div className="section-heading">
-            <div><p className="eyebrow">ENGINEERING &amp; CUSTOMIZATION</p><h2>From an initial requirement to a repeatable product.</h2></div>
-            <p>Our team supports specification matching, samples, private labeling and production coordination for global buyers.</p>
+            <div><p className="eyebrow">CUSTOM RF CONTROL SOLUTIONS</p><h2>From an initial requirement to a repeatable product.</h2></div>
+            <p>We support specification matching, samples, private labeling and production coordination to turn application requirements into reliable RF control products.</p>
           </div>
           <div className="capability-layout">
             <div className="capability-image"><img src="/assets/c5f89f065108be6f.jpg" alt="Long-distance RF remote control product" /></div>
@@ -155,8 +155,8 @@ export function HomeClient({ products, categories, brand }) {
         </section>
 
         <section className="about-section" id="about">
-          <div><p className="eyebrow light">ANQING · CHINA</p><h2>A responsive RF control partner for teams building real products.</h2></div>
-          <div><p>ANRIVERS combines 15 years of RF product experience with a practical, buyer-friendly process. Our products serve customers across North America, Europe, Australia, Japan, South Korea and Africa.</p><button className="light-button" type="button" onClick={() => openInquiry("about")}>Work with ANRIVERS</button></div>
+          <div><p className="eyebrow light">RF CONTROL · ANQING, CHINA</p><h2>A responsive RF control partner for teams building real products.</h2></div>
+          <div><p>ANRIVERS combines 15 years of RF product development experience with a practical, buyer-friendly process. We deliver custom transmitters, receivers and modules for customers across North America, Europe, Australia, Japan, South Korea and Africa.</p><button className="light-button" type="button" onClick={() => openInquiry("about")}>Work with ANRIVERS</button></div>
         </section>
       </main>
 
