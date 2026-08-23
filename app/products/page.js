@@ -4,20 +4,21 @@ import { CataloguePagination } from "@/components/CataloguePagination";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getCategories, getProducts } from "@/lib/products";
-import { absoluteUrl } from "@/lib/seo";
+import { absoluteUrl, paginatedCanonical } from "@/lib/seo";
 
-export const metadata = {
-  title: "RF Products",
-  description: "Browse RF remote controllers, receivers, modules and sensors from ANRIVERS RF Control.",
-  alternates: {
-    canonical: "/products",
-  },
-  openGraph: {
-    title: "RF Products",
-    description: "Browse RF remote controllers, receivers, modules and sensors from ANRIVERS RF Control.",
-    url: "/products",
-  },
-};
+const title = "RF Products";
+const description = "Browse RF remote controllers, receivers, modules and sensors from ANRIVERS RF Control.";
+
+export async function generateMetadata({ searchParams }) {
+  const params = await searchParams;
+  const canonical = paginatedCanonical("/products", params);
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: { title, description, url: canonical },
+  };
+}
 
 export const dynamic = "force-dynamic";
 

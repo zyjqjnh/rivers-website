@@ -3,17 +3,25 @@ import { KnowledgeIndex } from "@/components/KnowledgeIndex";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getKnowledgeArticles } from "@/lib/knowledge";
 import { getCategories } from "@/lib/products";
+import { paginatedCanonical } from "@/lib/seo";
 
-export const metadata = {
-  title: "RF Control Knowledge Center",
-  description: "Technical guides for RF remote controls, wireless relays, motor control, frequency selection and industrial wireless applications.",
-  alternates: { canonical: "/knowledge" },
-  openGraph: {
-    title: "RF Control Knowledge Center",
-    description: "Practical RF control guidance for engineers, OEM teams and technical buyers.",
-    url: "/knowledge",
-  },
-};
+const title = "RF Control Knowledge Center";
+const description = "Technical guides for RF remote controls, wireless relays, motor control, frequency selection and industrial wireless applications.";
+
+export async function generateMetadata({ searchParams }) {
+  const params = await searchParams;
+  const canonical = paginatedCanonical("/knowledge", params);
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description: "Practical RF control guidance for engineers, OEM teams and technical buyers.",
+      url: canonical,
+    },
+  };
+}
 
 export const dynamic = "force-dynamic";
 const ARTICLES_PER_PAGE = 6;

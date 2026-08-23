@@ -3,22 +3,25 @@ import { KnowledgeIndex } from "@/components/KnowledgeIndex";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getKnowledgeArticles, getKnowledgeCategoryBySlug } from "@/lib/knowledge";
 import { getCategories } from "@/lib/products";
+import { paginatedCanonical } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 const ARTICLES_PER_PAGE = 6;
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params, searchParams }) {
   const { slug } = await params;
+  const query = await searchParams;
   const category = getKnowledgeCategoryBySlug(slug);
   if (!category) return { title: "Knowledge category not found" };
+  const canonical = paginatedCanonical(`/knowledge/category/${category.slug}`, query);
   return {
     title: `${category.name} | RF Control Knowledge Center`,
     description: category.description,
-    alternates: { canonical: `/knowledge/category/${category.slug}` },
+    alternates: { canonical },
     openGraph: {
       title: category.name,
       description: category.description,
-      url: `/knowledge/category/${category.slug}`,
+      url: canonical,
     },
   };
 }

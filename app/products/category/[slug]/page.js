@@ -4,14 +4,15 @@ import { CataloguePagination } from "@/components/CataloguePagination";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getCategories, getCategoryBySlug, getProducts } from "@/lib/products";
-import { absoluteUrl } from "@/lib/seo";
+import { absoluteUrl, paginatedCanonical } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 const PRODUCTS_PER_PAGE = 6;
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params, searchParams }) {
   const { slug } = await params;
+  const query = await searchParams;
   const category = await getCategoryBySlug(slug);
   if (!category) return { title: "Product category not found" };
 
@@ -21,16 +22,15 @@ export async function generateMetadata({ params }) {
     category.description ||
     `Browse ${category.name.toLowerCase()} from ANRIVERS RF Control.`;
 
+  const canonical = paginatedCanonical(`/products/category/${category.slug}`, query);
   return {
     title,
     description,
-    alternates: {
-      canonical: `/products/category/${category.slug}`,
-    },
+    alternates: { canonical },
     openGraph: {
       title,
       description,
-      url: `/products/category/${category.slug}`,
+      url: canonical,
     },
   };
 }
