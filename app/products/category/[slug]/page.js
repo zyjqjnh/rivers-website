@@ -3,6 +3,9 @@ import { notFound, redirect } from "next/navigation";
 import { CataloguePagination } from "@/components/CataloguePagination";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
+import { CategoryGuide } from "@/components/CategoryGuide";
+import { categoryGuides } from "@/lib/category-guides";
+import { getKnowledgeArticles } from "@/lib/knowledge";
 import { getCategories, getCategoryBySlug, getProducts } from "@/lib/products";
 import { absoluteUrl, paginatedCanonical } from "@/lib/seo";
 
@@ -16,9 +19,11 @@ export async function generateMetadata({ params, searchParams }) {
   const category = await getCategoryBySlug(slug);
   if (!category) return { title: "Product category not found" };
 
-  const title = category.seoTitle || `${category.name} RF Products`;
+  const guide = categoryGuides[slug];
+  const title = category.seoTitle || guide?.seoTitle || `${category.name} RF Products`;
   const description =
     category.seoDescription ||
+    guide?.description ||
     category.description ||
     `Browse ${category.name.toLowerCase()} from ANRIVERS RF Control.`;
 
@@ -44,6 +49,7 @@ export default async function ProductCategoryPage({ params, searchParams }) {
     getCategories(),
   ]);
   if (!category) notFound();
+  const guide = categoryGuides[slug];
 
   const categoryProducts = allProducts.filter((product) => product.category?.slug === category.slug);
   const requestedPage = typeof query?.page === "string" && /^\d+$/.test(query.page) ? Number(query.page) : 1;
@@ -57,6 +63,7 @@ export default async function ProductCategoryPage({ params, searchParams }) {
     (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage * PRODUCTS_PER_PAGE,
   );
+  const articles = guide && currentPage === 1 ? await getKnowledgeArticles() : [];
   const structuredData = [
     {
       "@context": "https://schema.org",
@@ -95,9 +102,10 @@ export default async function ProductCategoryPage({ params, searchParams }) {
         </div>
         <div className="page-intro">
           <p className="eyebrow">PRODUCT CATEGORY</p>
-          <h1>{category.name}</h1>
-          <p>{category.description || `Browse our ${category.name.toLowerCase()} product range.`}</p>
+          <h1>{guide?.title || category.name}</h1>
+          <p>{guide?.intro || category.description || `Browse our ${category.name.toLowerCase()} product range.`}</p>
           <Link className="catalogue-clear-filter" href="/products">View all products</Link>
+          {guide && <a className="category-guide-jump" href={currentPage === 1 ? "#selection-guide" : `${pathname}#selection-guide`}>How to choose <span aria-hidden="true">↓</span></a>}
         </div>
         {products.length > 0 ? (
           <div className="catalogue-grid">
@@ -127,6 +135,7 @@ export default async function ProductCategoryPage({ params, searchParams }) {
           pathname={pathname}
           totalPages={totalPages}
         />
+        {guide && currentPage === 1 && <CategoryGuide guide={guide} category={category} products={products} categories={categories} articles={articles} />}
       </main>
     </div>
   );

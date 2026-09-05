@@ -9,6 +9,7 @@ export function InquiryModal({
   onClose,
   productName = "",
   productUrl = "",
+  initialMessage = "",
 }) {
   const titleId = useId();
   const closeButtonRef = useRef(null);
@@ -41,6 +42,7 @@ export function InquiryModal({
           onClose={onClose}
           productName={productName}
           productUrl={productUrl}
+          initialMessage={initialMessage}
           titleId={titleId}
         />
       </div>
@@ -48,11 +50,11 @@ export function InquiryModal({
   );
 }
 
-function InquiryForm({ onClose, productName, productUrl, titleId }) {
+function InquiryForm({ onClose, productName, productUrl, initialMessage, titleId }) {
   const [state, action, pending] = useActionState(createInquiryAction, { success: false, message: "" });
   const defaultMessage = productName
     ? `I would like a quote for ${productName}.\nProduct: ${productUrl}\n\nApplication, quantity and other requirements:`
-    : "";
+    : initialMessage;
 
   useEffect(() => {
     if (!state.success) return;
