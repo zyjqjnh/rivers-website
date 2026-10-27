@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { BrandLogo } from "@/components/BrandLogo";
+import { SiteFooter } from "@/components/SiteFooter";
 import { ProductsNavMenu } from "@/components/ProductsNavMenu";
 import { InquiryModal } from "@/components/InquiryModal";
 import { trackEvent } from "@/lib/analytics";
@@ -160,11 +161,7 @@ export function HomeClient({ products, categories, brand }) {
         </section>
       </main>
 
-      <footer>
-        <BrandLogo brand={brand} href="#top" className="footer-brand" theme="dark" />
-        <p>RF remote controls, receivers, modules and <Link href="/knowledge">technical guidance</Link>.</p>
-        <p>© 2026 Anqing Rivers Electronic Technology Co., Ltd.</p>
-      </footer>
+      <SiteFooter brand={brand} href="#top" />
 
       <InquiryModal open={inquiryOpen} onClose={() => setInquiryOpen(false)} />
     </div>

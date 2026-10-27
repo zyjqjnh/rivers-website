@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { BrandLogo } from "@/components/BrandLogo";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getCategories } from "@/lib/products";
 import { getBrand, getSiteSettings } from "@/lib/site-settings";
@@ -63,11 +63,7 @@ export default async function NotFound() {
         </aside>
       </main>
 
-      <footer className="not-found-footer">
-        <BrandLogo brand={brand} className="footer-brand" theme="dark" />
-        <p>RF remote controls, receivers, modules and sensors.</p>
-        <p>© 2026 Anqing Rivers Electronic Technology Co., Ltd.</p>
-      </footer>
+      <SiteFooter brand={brand} className="not-found-footer" />
     </div>
   );
 }

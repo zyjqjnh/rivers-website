@@ -8,6 +8,8 @@ When implementing from a selected generated mock, treat that image as the source
 
 ## Durable prototype decisions
 
+- Use `info@anrivers.com` as the public company email. Show a clickable email link in the shared public footer and RFQ form.
+
 - Use Cloudflare R2 for admin-uploaded product files. Upload directly from the browser with short-lived presigned URLs, and store the resulting public URLs in the existing `ProductImage` records.
 - Product detail pages should show multiple product images as an interactive gallery with arrows, thumbnails, and an image count. Hide carousel controls when a product has only one image.
 - Product detail gallery thumbnails should remain on one horizontal row and scroll sideways when there are more images than fit; do not wrap thumbnails onto additional rows.

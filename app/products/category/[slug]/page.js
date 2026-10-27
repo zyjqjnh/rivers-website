@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { CataloguePagination } from "@/components/CataloguePagination";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
+import { PublicFooter } from "@/components/PublicFooter";
 import { CategoryGuide } from "@/components/CategoryGuide";
 import { categoryGuides } from "@/lib/category-guides";
 import { getKnowledgeArticles } from "@/lib/knowledge";
@@ -137,6 +138,7 @@ export default async function ProductCategoryPage({ params, searchParams }) {
         />
         {guide && currentPage === 1 && <CategoryGuide guide={guide} category={category} products={products} categories={categories} articles={articles} />}
       </main>
+      <PublicFooter />
     </div>
   );
 }

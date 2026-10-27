@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Clock3 } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
+import { PublicFooter } from "@/components/PublicFooter";
 import { getKnowledgeArticleBySlug, getKnowledgeCategory } from "@/lib/knowledge";
 import { getCategories } from "@/lib/products";
 import { renderRichText } from "@/lib/rich-text";
@@ -122,6 +123,7 @@ export default async function KnowledgeArticlePage({ params }) {
 
         <div className="knowledge-article-back"><Link href="/knowledge"><ArrowLeft aria-hidden="true" />Back to Knowledge Center</Link></div>
       </main>
+      <PublicFooter />
     </div>
   );
 }

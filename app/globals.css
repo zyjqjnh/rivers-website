@@ -173,14 +173,21 @@ footer { min-height: 160px; display: grid; grid-template-columns: 1fr 1fr 1fr; a
 .footer-brand { color: white; }
 .footer-brand .brand-mark { width: 44px; height: 44px; }
 .footer-brand .brand-subtitle { color: #8799a8; }
-footer p:last-child { text-align: right; }
+footer > p:last-child { text-align: right; }
 footer p a { color: #b8c7d2; text-underline-offset: 4px; }
+.footer-contact p { margin: 0 0 12px; line-height: 1.6; }
+.footer-email { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; row-gap: 4px; color: #fff; font-size: 15px; text-decoration: none; }
+.footer-email span { color: #8799a8; font-size: 12px; }
+.footer-email:hover { color: var(--green); }
+.footer-email:focus-visible { outline: 2px solid var(--green); outline-offset: 5px; }
 
 .modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; background: rgba(1,14,27,.78); backdrop-filter: blur(5px); }
 .inquiry-modal { position: relative; width: min(680px,100%); max-height: calc(100vh - 48px); overflow-y: auto; padding: 54px; background: #f8fafb; box-shadow: 0 30px 100px rgba(0,0,0,.35); }
 .inquiry-modal h2 { max-width: 520px; font-size: 43px; line-height: 1.08; }
 .modal-close { position: absolute; top: 20px; right: 20px; border: 0; background: transparent; color: #596a78; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
 .modal-intro, .success-state > p:not(.eyebrow) { color: #657581; line-height: 1.6; }
+.inquiry-email { margin: 20px 0 0; color: #657581; font-size: 13px; line-height: 1.6; }
+.inquiry-email a { color: #0b7c53; text-underline-offset: 4px; }
 form { margin-top: 32px; }
 label { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; color: #293d4e; font-size: 12px; font-weight: 600; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -257,7 +264,7 @@ textarea { min-height: 118px; resize: vertical; }
   .capability-list > div { grid-template-columns: 34px 1fr; gap: 12px; padding: 22px 0; }
   .capability-list p { grid-column: 2; margin: 0; }
   footer { grid-template-columns: 1fr; padding: 50px 20px; }
-  footer p:last-child { text-align: left; }
+  footer > p:last-child { text-align: left; }
   .inquiry-modal { padding: 46px 24px 28px; }
   .inquiry-modal h2 { font-size: 34px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
+import { PublicFooter } from "@/components/PublicFooter";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
 import { ProductInquiryActions } from "@/components/ProductInquiryActions";
 import { getCategories, getProductBySlug } from "@/lib/products";
@@ -117,6 +118,7 @@ export default async function ProductDetailPage({ params }) {
           </div>
         )}
       </main>
+      <PublicFooter />
     </div>
   );
 }

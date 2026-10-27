@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { KnowledgeIndex } from "@/components/KnowledgeIndex";
 import { SiteHeader } from "@/components/SiteHeader";
+import { PublicFooter } from "@/components/PublicFooter";
 import { getKnowledgeArticles, getKnowledgeCategoryBySlug } from "@/lib/knowledge";
 import { getCategories } from "@/lib/products";
 import { paginatedCanonical } from "@/lib/seo";
@@ -55,6 +56,7 @@ export default async function KnowledgeCategoryPage({ params, searchParams }) {
         </header>
         <KnowledgeIndex articles={articles} currentCategory={category} currentPage={currentPage} pathname={pathname} totalPages={totalPages} />
       </main>
+      <PublicFooter />
     </div>
   );
 }

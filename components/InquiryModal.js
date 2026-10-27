@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useId, useRef } from "react";
 import { createInquiryAction } from "@/app/inquiries/actions";
 import { trackEvent } from "@/lib/analytics";
+import { CONTACT_EMAIL, CONTACT_EMAIL_HREF } from "@/lib/contact";
 
 export function InquiryModal({
   open,
@@ -91,6 +92,7 @@ function InquiryForm({ onClose, productName, productUrl, initialMessage, titleId
         {state.message && <p className="inquiry-error" role="alert">{state.message}</p>}
         <button className="primary-button form-submit" type="submit" disabled={pending}>{pending ? "Submitting..." : productName ? "Request quote" : "Submit requirement"}</button>
       </form>
+      <p className="inquiry-email">Prefer email? <a href={CONTACT_EMAIL_HREF}>{CONTACT_EMAIL}</a></p>
     </>
   );
 }

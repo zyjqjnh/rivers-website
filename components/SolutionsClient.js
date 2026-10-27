@@ -16,6 +16,7 @@ import {
   Sprout,
 } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
+import { SiteFooter } from "@/components/SiteFooter";
 import { InquiryModal } from "@/components/InquiryModal";
 import { ProductsNavMenu } from "@/components/ProductsNavMenu";
 import { trackEvent } from "@/lib/analytics";
@@ -168,11 +169,7 @@ export function SolutionsClient({ categories, brand }) {
         </section>
       </main>
 
-      <footer>
-        <BrandLogo brand={brand} className="footer-brand" theme="dark" />
-        <p>RF remote controls, receivers, modules and <Link href="/knowledge">technical guidance</Link>.</p>
-        <p>© 2026 Anqing Rivers Electronic Technology Co., Ltd.</p>
-      </footer>
+      <SiteFooter brand={brand} />
 
       <InquiryModal open={inquiryOpen} onClose={() => setInquiryOpen(false)} />
     </div>

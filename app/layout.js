@@ -2,6 +2,7 @@ import "./globals.css";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
     name: SITE_NAME,
     url: SITE_URL,
     description: SITE_DESCRIPTION,
+    email: CONTACT_EMAIL,
   };
 
   return (

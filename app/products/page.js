@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { CataloguePagination } from "@/components/CataloguePagination";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
+import { PublicFooter } from "@/components/PublicFooter";
 import { getCategories, getProducts } from "@/lib/products";
 import { absoluteUrl, paginatedCanonical } from "@/lib/seo";
 
@@ -85,6 +86,7 @@ export default async function ProductsPage({ searchParams }) {
           totalPages={totalPages}
         />
       </main>
+      <PublicFooter />
     </div>
   );
 }
