@@ -1,0 +1,14 @@
+[
+  {
+    "AllowedOrigins": [
+      "https://anrivers.com",
+      "https://www.anrivers.com",
+      "http://127.0.0.1:3000",
+      "http://localhost:3000"
+    ],
+    "AllowedMethods": ["GET", "HEAD", "PUT"],
+    "AllowedHeaders": ["Content-Type", "Cache-Control", "Range"],
+    "ExposeHeaders": ["ETag", "Content-Length", "Content-Range", "Accept-Ranges"],
+    "MaxAgeSeconds": 3600
+  }
+]

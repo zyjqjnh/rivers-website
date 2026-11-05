@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function AlibabaImportTool({ categories, databaseReady, storageReady }) {
+export function AlibabaImportTool({ categories, databaseReady, storageReady, videoStorageReady }) {
   const [url, setUrl] = useState("");
   const [product, setProduct] = useState(null);
   const [error, setError] = useState("");
@@ -102,6 +102,7 @@ export function AlibabaImportTool({ categories, databaseReady, storageReady }) {
             product={product}
             databaseReady={databaseReady}
             storageReady={storageReady}
+            videoStorageReady={videoStorageReady}
             submitLabel="Create draft"
           />
         </div>

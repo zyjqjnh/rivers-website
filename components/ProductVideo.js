@@ -20,7 +20,7 @@ export function ProductVideo({ url, productName }) {
         src={url}
         controls
         playsInline
-        preload="none"
+        preload="metadata"
         aria-label={`${productName} product video`}
         onError={() => setFailedUrl(url)}
       >

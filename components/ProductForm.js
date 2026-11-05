@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,14 +8,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { VideoUploader } from "@/components/admin/VideoUploader";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
-export function ProductForm({ action, categories, product, databaseReady, storageReady = false, submitLabel }) {
+export function ProductForm({ action, categories, product, databaseReady, storageReady = false, videoStorageReady = false, submitLabel }) {
+  const [videoUploading, setVideoUploading] = useState(false);
+  const videoUploadingRef = useRef(false);
   const imageUrls = product?.images?.map((image) => image.url) || [];
   const specifications = product?.specifications?.map((spec) => `${spec.label}: ${spec.value}`).join("\n") || "";
 
   return (
-    <form action={action} className="max-w-5xl">
+    <form action={action} className="max-w-5xl" onSubmit={(event) => {
+      if (videoUploadingRef.current) event.preventDefault();
+    }}>
       <fieldset disabled={!databaseReady} className="space-y-6 disabled:opacity-60">
         <Card>
           <CardHeader><CardTitle>Product information</CardTitle><CardDescription>Core catalogue content and publishing controls.</CardDescription></CardHeader>
@@ -44,8 +52,11 @@ export function ProductForm({ action, categories, product, databaseReady, storag
           <CardHeader><CardTitle>Media and specifications</CardTitle><CardDescription>Upload and arrange product images, then add one technical specification per line.</CardDescription></CardHeader>
           <CardContent className="space-y-5">
             <Field label="Product images"><ImageUploader initialUrls={imageUrls} storageReady={storageReady} /></Field>
-            <Field label="Product video URL (optional)" hint="Paste a public HTTPS link to a video file (MP4 recommended; WebM and Ogg also supported). Use a direct video link, not a YouTube or other video page URL. Leave blank to hide the player.">
-              <Input id="product-video-url" aria-label="Product video URL (optional)" name="videoUrl" type="url" pattern="https://.*" maxLength={4096} defaultValue={product?.videoUrl || ""} placeholder="https://cdn.example.com/product-demo.mp4" />
+            <Field label="Product video (optional)">
+              <VideoUploader initialUrl={product?.videoUrl || ""} storageReady={videoStorageReady} onUploadingChange={(uploading) => {
+                videoUploadingRef.current = uploading;
+                setVideoUploading(uploading);
+              }} />
             </Field>
             <Field label="Specifications" hint={<>Use <code>Label: Value</code> format.</>}><Textarea className="min-h-36" name="specifications" defaultValue={specifications} placeholder={"Frequency: 433.92 MHz\nVoltage: DC 12V\nChannels: 4"} /></Field>
           </CardContent>
@@ -58,7 +69,7 @@ export function ProductForm({ action, categories, product, databaseReady, storag
             <Field label="SEO description"><Input name="seoDescription" defaultValue={product?.seoDescription || ""} /></Field>
           </CardContent>
           <CardFooter className="gap-3 border-t pt-6">
-            <Button type="submit">{submitLabel || (product ? "Save product" : "Create product")}</Button>
+            <Button type="submit" disabled={videoUploading}>{submitLabel || (product ? "Save product" : "Create product")}</Button>
             <Button variant="outline" asChild><Link href="/admin/products">Cancel</Link></Button>
           </CardFooter>
         </Card>
