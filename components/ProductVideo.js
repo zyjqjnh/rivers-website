@@ -26,10 +26,11 @@ export function ProductVideo({ url, productName }) {
       >
         Your browser does not support embedded video.
       </video>
-      <p className="product-video-help" role={failedUrl === url ? "status" : undefined}>
-        {failedUrl === url ? "This video could not be played. " : ""}
-        <a href={url} target="_blank" rel="noopener noreferrer">Open video in a new tab</a>
-      </p>
+      {failedUrl === url && (
+        <p className="product-video-help" role="status">
+          This video could not be played.
+        </p>
+      )}
     </section>
   );
 }
