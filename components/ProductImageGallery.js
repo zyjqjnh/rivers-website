@@ -1,10 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ProductVideoThumbnail } from "@/components/ProductVideoThumbnail";
+import { ProductVideo } from "@/components/ProductVideo";
+import { isProductVideoUrl } from "@/lib/product-video";
 import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 
-export function ProductImageGallery({ images, productName }) {
-  const galleryImages = images.length ? images : [{ url: "/assets/67d6ba3c0e8ef810.jpg", alt: productName }];
+export function ProductImageGallery({ images, videoUrl, productName }) {
+  const hasVideo = isProductVideoUrl(videoUrl);
+  const galleryImages = images.length ? images : hasVideo ? [] : [{ url: "/assets/67d6ba3c0e8ef810.jpg", alt: productName }];
+  const mediaItems = [
+    ...galleryImages.map((image) => ({ ...image, type: "image" })),
+    ...(hasVideo ? [{ url: videoUrl, type: "video" }] : []),
+  ];
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const thumbnailStripRef = useRef(null);
@@ -13,8 +21,8 @@ export function ProductImageGallery({ images, productName }) {
   const lightboxCloseRef = useRef(null);
   const imageTriggerRef = useRef(null);
   const touchStartXRef = useRef(null);
-  const hasMultipleImages = galleryImages.length > 1;
-  const activeImage = galleryImages[activeIndex];
+  const hasMultipleMedia = mediaItems.length > 1;
+  const activeImage = mediaItems[activeIndex] || mediaItems[0];
 
   useEffect(() => {
     const strip = thumbnailStripRef.current;
@@ -60,10 +68,10 @@ export function ProductImageGallery({ images, productName }) {
       } else if (event.key === "Escape") {
         event.preventDefault();
         setIsLightboxOpen(false);
-      } else if (event.key === "ArrowLeft" && hasMultipleImages) {
+      } else if (event.key === "ArrowLeft" && galleryImages.length > 1) {
         event.preventDefault();
         selectPrevious();
-      } else if (event.key === "ArrowRight" && hasMultipleImages) {
+      } else if (event.key === "ArrowRight" && galleryImages.length > 1) {
         event.preventDefault();
         selectNext();
       }
@@ -75,18 +83,20 @@ export function ProductImageGallery({ images, productName }) {
       document.body.style.overflow = previousOverflow;
       imageTriggerRef.current?.focus();
     };
-  }, [isLightboxOpen, hasMultipleImages]);
+  }, [isLightboxOpen, hasMultipleMedia, galleryImages.length]);
 
   function selectPrevious() {
-    setActiveIndex((index) => (index - 1 + galleryImages.length) % galleryImages.length);
+    const count = isLightboxOpen ? galleryImages.length : mediaItems.length;
+    setActiveIndex((index) => (index - 1 + count) % count);
   }
 
   function selectNext() {
-    setActiveIndex((index) => (index + 1) % galleryImages.length);
+    const count = isLightboxOpen ? galleryImages.length : mediaItems.length;
+    setActiveIndex((index) => (index + 1) % count);
   }
 
   function handleKeyDown(event) {
-    if (!hasMultipleImages || isLightboxOpen) return;
+    if (!hasMultipleMedia || isLightboxOpen || event.target.tagName === "VIDEO") return;
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       selectPrevious();
@@ -101,7 +111,7 @@ export function ProductImageGallery({ images, productName }) {
   }
 
   function handleTouchEnd(event) {
-    if (!hasMultipleImages || touchStartXRef.current === null) return;
+    if (!hasMultipleMedia || touchStartXRef.current === null) return;
     const touchEndX = event.changedTouches[0]?.clientX;
     if (touchEndX === undefined) return;
 
@@ -114,7 +124,10 @@ export function ProductImageGallery({ images, productName }) {
 
   return (
     <div className="product-gallery" onKeyDown={handleKeyDown}>
-      <div className="product-detail-image">
+      <div className={`product-detail-image${activeImage.type === "video" ? " product-detail-video" : ""}`}>
+        {activeImage.type === "video" ? (
+          <ProductVideo url={activeImage.url} productName={productName} />
+        ) : (
         <button
           className="gallery-image-trigger"
           type="button"
@@ -126,19 +139,20 @@ export function ProductImageGallery({ images, productName }) {
           <img src={activeImage.url} alt={activeImage.alt || productName} />
           <span className="gallery-zoom-hint" aria-hidden="true"><ZoomIn /></span>
         </button>
+        )}
 
-        {hasMultipleImages && (
+        {hasMultipleMedia && (
           <>
-            <button className="gallery-arrow gallery-arrow-previous" type="button" onClick={selectPrevious} aria-label="Previous product image"><ChevronLeft /></button>
-            <button className="gallery-arrow gallery-arrow-next" type="button" onClick={selectNext} aria-label="Next product image"><ChevronRight /></button>
-            <span className="gallery-count" aria-live="polite">{activeIndex + 1} / {galleryImages.length}</span>
+            <button className="gallery-arrow gallery-arrow-previous" type="button" onClick={selectPrevious} aria-label="Previous product media"><ChevronLeft /></button>
+            <button className="gallery-arrow gallery-arrow-next" type="button" onClick={selectNext} aria-label="Next product media"><ChevronRight /></button>
+            <span className="gallery-count" aria-live="polite">{activeIndex + 1} / {mediaItems.length}</span>
           </>
         )}
       </div>
 
-      {hasMultipleImages && (
-        <div className="gallery-thumbnails" ref={thumbnailStripRef} aria-label="Product images">
-          {galleryImages.map((image, index) => (
+      {hasMultipleMedia && (
+        <div className="gallery-thumbnails" ref={thumbnailStripRef} aria-label="Product images and video">
+          {mediaItems.map((image, index) => (
             <button
               className={`gallery-thumbnail${index === activeIndex ? " active" : ""}`}
               type="button"
@@ -147,11 +161,13 @@ export function ProductImageGallery({ images, productName }) {
                 thumbnailRefs.current[index] = element;
               }}
               onClick={() => setActiveIndex(index)}
-              aria-label={`Show product image ${index + 1}`}
+              aria-label={image.type === "video" ? "Show product video" : `Show product image ${index + 1}`}
               aria-current={index === activeIndex ? "true" : undefined}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={image.url} alt="" />
+              {image.type === "video" ? (
+                <ProductVideoThumbnail url={image.url} />
+              ) : <img src={image.url} alt="" />}
             </button>
           ))}
         </div>
@@ -182,7 +198,7 @@ export function ProductImageGallery({ images, productName }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={activeImage.url} alt={activeImage.alt || productName} />
 
-            {hasMultipleImages && (
+            {galleryImages.length > 1 && (
               <>
                 <button className="gallery-lightbox-arrow gallery-lightbox-previous" type="button" onClick={selectPrevious} aria-label="Previous product image"><ChevronLeft /></button>
                 <button className="gallery-lightbox-arrow gallery-lightbox-next" type="button" onClick={selectNext} aria-label="Next product image"><ChevronRight /></button>
@@ -190,7 +206,7 @@ export function ProductImageGallery({ images, productName }) {
             )}
           </div>
 
-          {hasMultipleImages && <span className="gallery-lightbox-count" aria-live="polite">{activeIndex + 1} / {galleryImages.length}</span>}
+          {galleryImages.length > 1 && <span className="gallery-lightbox-count" aria-live="polite">{activeIndex + 1} / {galleryImages.length}</span>}
         </div>
       )}
     </div>

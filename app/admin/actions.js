@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { clearAdminSession, createAdminSession, isAdminAuthenticated } from "@/lib/auth";
 import { isDatabaseConfigured, prisma } from "@/lib/prisma";
+import { isProductVideoUrl } from "@/lib/product-video";
 import { sanitizeRichText } from "@/lib/rich-text";
 
 const productSchema = z.object({
@@ -21,6 +22,7 @@ const productSchema = z.object({
   specifications: z.string().optional(),
   seoTitle: z.string().trim().optional(),
   seoDescription: z.string().trim().optional(),
+  videoUrl: z.string().trim().max(4096).refine((value) => !value || isProductVideoUrl(value), "Enter a public HTTPS video URL").optional(),
   alibabaUrl: z.string().trim().max(2048).refine((value) => {
     if (!value) return true;
     try {
@@ -119,6 +121,7 @@ function productData(formData) {
     specifications: formData.get("specifications"),
     seoTitle: formData.get("seoTitle"),
     seoDescription: formData.get("seoDescription"),
+    videoUrl: String(formData.get("videoUrl") || ""),
     alibabaUrl: formData.get("alibabaUrl"),
   };
   return productSchema.parse(raw);
@@ -222,6 +225,7 @@ export async function createProductAction(formData) {
       featured: input.featured,
       seoTitle: normalizeOptional(input.seoTitle),
       seoDescription: normalizeOptional(input.seoDescription),
+      videoUrl: normalizeOptional(input.videoUrl),
       alibabaUrl: normalizeOptional(input.alibabaUrl),
       publishedAt: input.status === "PUBLISHED" ? new Date() : null,
       images: { create: images },
@@ -257,6 +261,7 @@ export async function updateProductAction(id, formData) {
         featured: input.featured,
         seoTitle: normalizeOptional(input.seoTitle),
         seoDescription: normalizeOptional(input.seoDescription),
+        videoUrl: normalizeOptional(input.videoUrl),
         alibabaUrl: normalizeOptional(input.alibabaUrl),
         publishedAt: input.status === "PUBLISHED" ? new Date() : null,
         images: { create: images },

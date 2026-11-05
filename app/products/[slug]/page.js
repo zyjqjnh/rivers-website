@@ -85,7 +85,7 @@ export default async function ProductDetailPage({ params }) {
           <span className="breadcrumb-current"> / {product.name}</span>
         </div>
         <div className="product-detail-grid">
-          <ProductImageGallery images={product.images || []} productName={product.name} />
+          <ProductImageGallery images={product.images || []} videoUrl={product.videoUrl} productName={product.name} />
           <div className="product-detail-copy">
             <p className="eyebrow">{product.category?.name}</p>
             <h1>{product.name}</h1>

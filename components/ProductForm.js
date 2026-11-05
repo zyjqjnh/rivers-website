@@ -44,6 +44,9 @@ export function ProductForm({ action, categories, product, databaseReady, storag
           <CardHeader><CardTitle>Media and specifications</CardTitle><CardDescription>Upload and arrange product images, then add one technical specification per line.</CardDescription></CardHeader>
           <CardContent className="space-y-5">
             <Field label="Product images"><ImageUploader initialUrls={imageUrls} storageReady={storageReady} /></Field>
+            <Field label="Product video URL (optional)" hint="Paste a public HTTPS link to a video file (MP4 recommended; WebM and Ogg also supported). Use a direct video link, not a YouTube or other video page URL. Leave blank to hide the player.">
+              <Input id="product-video-url" aria-label="Product video URL (optional)" name="videoUrl" type="url" pattern="https://.*" maxLength={4096} defaultValue={product?.videoUrl || ""} placeholder="https://cdn.example.com/product-demo.mp4" />
+            </Field>
             <Field label="Specifications" hint={<>Use <code>Label: Value</code> format.</>}><Textarea className="min-h-36" name="specifications" defaultValue={specifications} placeholder={"Frequency: 433.92 MHz\nVoltage: DC 12V\nChannels: 4"} /></Field>
           </CardContent>
         </Card>
